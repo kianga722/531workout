@@ -7,6 +7,9 @@ const passport = require('passport');
 const User = require('../models/User');
 
 const mailer = require('../utils/mailer');
+const config = require('../utils/config');
+
+const appHost = process.env.NODE_ENV ? config.HEROKU_APP_URL : config.LOCAL_URL;
 
 // Signup
 usersRouter.post('/', async (req, res, next) => {
@@ -69,7 +72,7 @@ usersRouter.post('/', async (req, res, next) => {
           <br/><br/>
           Please verify your email by clicking the following link:
           <br/>
-          <a href="http://${req.headers['x-forwarded-host']}/verify/${tokenEmail}">http://${req.headers['x-forwarded-host']}/verify/${tokenEmail}</a>
+          <a href="${appHost}/verify/${tokenEmail}">${appHost}/verify/${tokenEmail}</a>
           <br/><br/>
           Have a pleasant day!`;
 
@@ -119,7 +122,7 @@ usersRouter.get('/verify/:token', async (req, res, next) => {
           };
 
           // generate a signed json web token with the contents of user object and return it in the response
-          const token = jwt.sign(JSON.stringify(payload), process.env.SECRET);
+          const token = jwt.sign(JSON.stringify(payload), config.SECRET);
 
           res.cookie('jwt', token, { httpOnly: true, maxAge: 604800000 });
 
@@ -164,7 +167,7 @@ usersRouter.post('/resend', async (req, res, next) => {
       <br/><br/>
       Please verify your email by clicking the following link:
       <br/>
-      <a href="http://${req.headers['x-forwarded-host']}/verify/${tokenEmail}">http://${req.headers['x-forwarded-host']}/verify/${tokenEmail}</a>
+      <a href="${appHost}/verify/${tokenEmail}">${appHost}/verify/${tokenEmail}</a>
       <br/><br/>
       Have a pleasant day!`;
 
@@ -206,7 +209,7 @@ usersRouter.post('/forgot', async (req, res, next) => {
       <br/><br/>
       Please click the following link to complete the process
       <br/>
-      <a href="http://${req.headers['x-forwarded-host']}/reset/${tokenForgot}">http://${req.headers['x-forwarded-host']}/reset/${tokenForgot}</a>
+      <a href="${appHost}/reset/${tokenForgot}">${appHost}/reset/${tokenForgot}</a>
       <br/><br/>
       If you id not request this, please ignore this email and your password will remain unchanged.`;
 

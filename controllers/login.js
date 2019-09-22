@@ -1,8 +1,9 @@
-require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
 const loginRouter = require('express').Router();
 const passport = require('passport');
+
+const config = require('../utils/config');
 
 // Login a user
 loginRouter.post('/', async (req, res, next) => {
@@ -23,7 +24,7 @@ loginRouter.post('/', async (req, res, next) => {
       };
 
       // generate a signed json web token with the contents of user object and return it in the response
-      const token = jwt.sign(JSON.stringify(payload), process.env.SECRET);
+      const token = jwt.sign(JSON.stringify(payload), config.SECRET);
 
       // assign our jwt to the cookie
       res.cookie('jwt', token, { httpOnly: true, maxAge: 604800000 });
