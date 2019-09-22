@@ -659,7 +659,7 @@ const WorkoutHome = ({
   
         // since it is the newest workout
         setNavState('current')
-        setNotificationMessage(null)
+        //setNotificationMessage(null)
       }
     } catch(err) {
       setNotificationMessage(err.response.data)
@@ -675,7 +675,7 @@ const WorkoutHome = ({
       if (workoutPrev) {
         setNavState('prev')
         setFoundWorkout(workoutPrev)
-        setNotificationMessage(null)
+        //setNotificationMessage(null)
       }
     } catch (err) {
       setNotificationMessage(err.response.data)
@@ -702,7 +702,8 @@ const WorkoutHome = ({
         }
         setNavState('current')
         setWorkoutLoading(false)
-        setNotificationMessage(null)
+        setAssistError(null)
+        // setNotificationMessage(null)
         return
       }
   
@@ -718,7 +719,7 @@ const WorkoutHome = ({
       // Set state to current after setting new workout input values so the previous workout inputs are not saved to localstorage
       setNavState('current')
       setWorkoutLoading(false)
-      setNotificationMessage(null)
+      // setNotificationMessage(null)
     } catch (err) {
       setNotificationMessage(err.response.data)
       window.scrollTo(0, 0)
@@ -777,6 +778,7 @@ const WorkoutHome = ({
       <div id='workout-home'>
 
       <WorkoutNav
+        setNotificationMessage={setNotificationMessage}
         workoutCount={workoutCount}
         completed={completed}
         handlePrev={handlePrev}

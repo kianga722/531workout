@@ -1,6 +1,7 @@
 import React from 'react'
 
 const WorkoutNav = ({
+  setNotificationMessage,
   workoutCount,
   completed,
   handlePrev,
@@ -17,7 +18,10 @@ const WorkoutNav = ({
       {
         workoutCount !== 1 &&
         <button
-          onClick={(event) => handlePrev()}
+          onClick={(event) => {
+            setNotificationMessage(null)
+            handlePrev()
+          }}
         >
           Previous
         </button>
@@ -27,7 +31,10 @@ const WorkoutNav = ({
         // Jumps to current workout
       }
         <button
-          onClick={(event) => handleCurrent()}
+        onClick={(event) => {
+          setNotificationMessage(null)
+          handleCurrent()
+        }}
         >
           Current
         </button>
@@ -38,7 +45,10 @@ const WorkoutNav = ({
       {
         completed &&
         <button
-          onClick={(event) => handleNext(user)}
+          onClick={(event) => {
+            setNotificationMessage(null)
+            handleNext(user)
+          }}
         >
           Next
         </button>
