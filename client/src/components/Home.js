@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {
   Link
 } from 'react-router-dom'
@@ -13,6 +13,8 @@ import { calcWeight, calc1RM } from '../helpers'
 
 const Home = () => {
   const [assistNotificationDemo, setAssistNotificationDemo] = useState(null)
+
+  const [RMTMCompletedDemo, setRMTMCompletedDemo] = useState(false)
 
   const [RMCalcDemo, setRMCalcDemo] = useState({
     weight: '',
@@ -288,6 +290,17 @@ const Home = () => {
     assistMap[assistName][1]({})
   }
 
+  // Check if RMTM is complete before showing rest of workout
+  useEffect(() => {
+    for (let i = 0; i < Object.keys(RMTMDemo).length; i += 1) {
+      const key = Object.keys(RMTMDemo)[i];
+      if (!RMTMDemo[key]) {
+        return setRMTMCompletedDemo(false)
+      }
+    }
+    setRMTMCompletedDemo(true)
+  }, [RMTMDemo])
+
 
   return (
     <div id='home'>
@@ -316,65 +329,69 @@ const Home = () => {
           handleTMChange={handleTMChange}
         />
 
-        <div className='demo-step'>
-          Add assistance exercises
-        </div>
-        <div className='notification'>
-          {assistNotificationDemo}
-        </div>
+        { RMTMCompletedDemo &&
+          <div className='after-rmtm-complete'>
+          
+            <div className='demo-step'>
+              Add assistance exercises and complete the workout!
+            </div>
+          
+            <div className='notification'>
+              {assistNotificationDemo}
+            </div>
 
-        <AssistAddBlock
-          assistAdd={assistAddDemo}
-          handleAssistAddInput={handleAssistAddInput}
-          handleNewAssist={handleNewAssist}
-        />
+            <AssistAddBlock
+              assistAdd={assistAddDemo}
+              handleAssistAddInput={handleAssistAddInput}
+              handleNewAssist={handleNewAssist}
+            />
 
-        <div className='demo-step'>
-          Complete the workout
-        </div>
-        <section id='workout-session-demo'>
-          <WorkoutBlock
-            workout={workout1Demo}
-            setWorkout={setWorkout1Demo}
-            cycle={1}
-            week={1}
-            RMTM={RMTMDemo}
-            exerciseMap={exerciseMap}
-            getPercentage={getPercentage}
-            getReps={getReps}
-            TMTesting={false}
-            handleWorkoutInput={handleWorkoutInput}
-          />
-
-          <WorkoutBlock
-            workout={workout2Demo}
-            setWorkout={setWorkout2Demo}
-            cycle={1}
-            week={1}
-            RMTM={RMTMDemo}
-            exerciseMap={exerciseMap}
-            getPercentage={getPercentage}
-            getReps={getReps}
-            TMTesting={false}
-            handleWorkoutInput={handleWorkoutInput}
-          />
-        </section>
-
-        <div className='assistance-wrapper-demo'>
-
-          {assistListDemo.map(assistName => {
-            return (
-              <AssistExercise
-                key={assistName}
-                assistName={assistName}
-                assistWorkout={assistMap[assistName][0]}
-                handleWorkoutInput={handleAssistInput}
-                handleAssistDelete={(event) => handleAssistDelete(assistName, assistMap[assistName][1])}
+            <section id='workout-session-demo'>
+              <WorkoutBlock
+                workout={workout1Demo}
+                setWorkout={setWorkout1Demo}
+                cycle={1}
+                week={1}
+                RMTM={RMTMDemo}
+                exerciseMap={exerciseMap}
+                getPercentage={getPercentage}
+                getReps={getReps}
+                TMTesting={false}
+                handleWorkoutInput={handleWorkoutInput}
               />
-            )
-          })}
-           
-        </div>
+
+              <WorkoutBlock
+                workout={workout2Demo}
+                setWorkout={setWorkout2Demo}
+                cycle={1}
+                week={1}
+                RMTM={RMTMDemo}
+                exerciseMap={exerciseMap}
+                getPercentage={getPercentage}
+                getReps={getReps}
+                TMTesting={false}
+                handleWorkoutInput={handleWorkoutInput}
+              />
+            </section>
+
+            <div className='assistance-wrapper-demo'>
+
+              {assistListDemo.map(assistName => {
+                return (
+                  <AssistExercise
+                    key={assistName}
+                    assistName={assistName}
+                    assistWorkout={assistMap[assistName][0]}
+                    handleWorkoutInput={handleAssistInput}
+                    handleAssistDelete={(event) => handleAssistDelete(assistName, assistMap[assistName][1])}
+                  />
+                )
+              })}
+              
+            </div>
+          
+          </div>
+        }
 
 
       </div>

@@ -27,6 +27,7 @@ const WorkoutHome = ({
   const [week, setWeek] = useState(1)
   const [section, setSection] = useState(1)
 
+  const [RMTMCompleted, setRMTMCompleted] = useState(false)
   const [completed, setCompleted] = useState(false)
   const [TMTesting, setTMTesting] = useState(false)
 
@@ -763,6 +764,17 @@ const WorkoutHome = ({
     }
   }, [RMTM, assistList, assistMap, completed, navState, user, workout1, workout2, workoutCount, workoutLoading, setWorkoutLoading])
 
+  // Check if RMTM is complete before showing rest of workout
+  useEffect(() => {
+    for (let i = 0; i < Object.keys(RMTM).length; i += 1) {
+      const key = Object.keys(RMTM)[i];
+      if (!RMTM[key]) {
+        return setRMTMCompleted(false)
+      }
+    }
+    setRMTMCompleted(true)
+  }, [RMTM])
+
 
 
   return (
@@ -809,78 +821,85 @@ const WorkoutHome = ({
         handleTMChange={handleTMChange}
       />
           
-      <div className='notification'>
-        {assistNotification}
-      </div>
+      { RMTMCompleted &&
+        <div className='after-rmtm-complete'>
+            
+          <div className='notification'>
+            {assistNotification}
+          </div>
 
-      <AssistAddBlock
-        assistAdd={assistAdd}
-        handleAssistAddInput={handleAssistAddInput}
-        handleNewAssist={handleNewAssist}
-      />
-
-      <section id='workout-session'>
-
-        <WorkoutBlock
-          workout={workout1}
-          setWorkout={setWorkout1}
-          cycle={cycle}
-          week={week}
-          RMTM={RMTM}
-          exerciseMap={exerciseMap}
-          getPercentage={getPercentage}
-          getReps={getReps}
-          TMTesting={TMTesting}
-          handleWorkoutInput={handleWorkoutInput}
-        />
-      
-        {
-          workout2
-          &&
-          <WorkoutBlock
-          workout={workout2}
-          setWorkout={setWorkout2}
-          cycle={cycle}
-          week={week}
-          RMTM={RMTM}
-          exerciseMap={exerciseMap}
-          getPercentage={getPercentage}
-          getReps={getReps}
-          TMTesting={TMTesting}
-          handleWorkoutInput={handleWorkoutInput}
+          <AssistAddBlock
+            assistAdd={assistAdd}
+            handleAssistAddInput={handleAssistAddInput}
+            handleNewAssist={handleNewAssist}
           />
-        }
 
-        <div className='assistance-wrapper'>
+          <section id='workout-session'>
 
-          {assistList.map(assistName => {
-            return (
-              <AssistExercise
-                key={assistName}
-                assistName={assistName}
-                assistWorkout={assistMap[assistName][0]}
-                handleWorkoutInput={handleAssistInput}
-                handleAssistDelete={(event) => handleAssistDelete(assistName, assistMap[assistName][1])}
+            <WorkoutBlock
+              workout={workout1}
+              setWorkout={setWorkout1}
+              cycle={cycle}
+              week={week}
+              RMTM={RMTM}
+              exerciseMap={exerciseMap}
+              getPercentage={getPercentage}
+              getReps={getReps}
+              TMTesting={TMTesting}
+              handleWorkoutInput={handleWorkoutInput}
+            />
+          
+            {
+              workout2
+              &&
+              <WorkoutBlock
+              workout={workout2}
+              setWorkout={setWorkout2}
+              cycle={cycle}
+              week={week}
+              RMTM={RMTM}
+              exerciseMap={exerciseMap}
+              getPercentage={getPercentage}
+              getReps={getReps}
+              TMTesting={TMTesting}
+              handleWorkoutInput={handleWorkoutInput}
               />
-            )
-          })}
-           
+            }
+
+            <div className='assistance-wrapper'>
+
+              {assistList.map(assistName => {
+                return (
+                  <AssistExercise
+                    key={assistName}
+                    assistName={assistName}
+                    assistWorkout={assistMap[assistName][0]}
+                    handleWorkoutInput={handleAssistInput}
+                    handleAssistDelete={(event) => handleAssistDelete(assistName, assistMap[assistName][1])}
+                  />
+                )
+              })}
+              
+            </div>
+
+          </section>
+
+          <section id='finish-options'>
+            <button
+              onClick={(event) => handleDone(week, section)}
+            >
+              Done
+            </button>
+          </section>
+
         </div>
-
-      </section>
-
-      <section id='finish-options'>
-        <button
-          onClick={(event) => handleDone(week, section)}
-        >
-          Done
-        </button>
-      </section>
-
-</div>
       }
+          
+
       </div>
-    
+      }
+      
+      </div>
   )
 }
 
