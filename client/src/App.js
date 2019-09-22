@@ -175,6 +175,7 @@ function App() {
         setUser(userVerifyFound)
         
         setNotificationMessage('Email successfully verified!')
+        window.history.pushState("", "", '/workouts');
       }
     } catch (err) {
       setNotificationMessage(err.response.data)
