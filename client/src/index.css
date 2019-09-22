@@ -1,0 +1,53 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+#nav-main a {
+  padding: 1rem;
+}
+
+.error {
+  color: red;
+  font-size: 20px;
+}
+
+#heading-workout {
+  margin-bottom: 3rem;
+}
+
+#rm-calc {
+  margin-bottom: 3rem;
+}
+
+#rm-tm-wrapper {
+  margin-bottom: 1rem;
+  display: flex;
+}
+
+#rm-tm-wrapper input {
+  width: 6rem;
+}
+
+.title-row,
+.exercise-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+#workout-session {
+  margin-bottom: 3rem;
+}
+
+.exercise-wrapper {
+  margin-bottom: 3rem;
+}
