@@ -8,18 +8,18 @@ const Notification = ({
   }
 
   return (
-    <div className="errors">
+    <div className="notifications">
 
       {
         typeof message === 'string' &&
-        <div className='error'>
+        <div className='notification'>
           {message}
         </div>
       }
 
       { typeof message !== 'string' &&
         message.map(error => (
-          <div key={message.indexOf(error)} className='error'>
+          <div key={message.indexOf(error)} className='notification'>
             {error}
           </div>
         ))

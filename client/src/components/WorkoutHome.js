@@ -16,7 +16,7 @@ const WorkoutHome = ({
   setNotificationMessage,
   user
 }) => {
-  const [assistError, setAssistError] = useState(null)
+  const [assistNotification, setAssistNotification] = useState(null)
 
   const [workoutLoading, setWorkoutLoading] = useState(true)
   const [navState, setNavState] = useState('')
@@ -265,11 +265,11 @@ const WorkoutHome = ({
   const handleNewAssist = () => {
     const { exercise, sets, reps } = assistAdd
     if (!exercise || !sets || !reps) {
-      setAssistError('Please fill in all Add Assistance Workout fields')
+      setAssistNotification('Please fill in all Add Assistance Workout fields ')
       return
     }
     if (assistList.includes(exercise)) {
-      setAssistError('Exercise already added')
+      setAssistNotification(`${exercise} already added`)
       return
     }
     setAssistList(assistList.concat(exercise))
@@ -283,7 +283,7 @@ const WorkoutHome = ({
       newAssist[repsName] = ''
     }
     assistMap[exercise][1](newAssist)
-    setAssistError(null)
+    setAssistNotification(`${exercise} ${sets}x${reps} added`)
   }
 
   const handleAssistInput = ({target}, exercise, key) => {
@@ -343,7 +343,7 @@ const WorkoutHome = ({
       setNotificationMessage(err.response.data)
     }
     window.scrollTo(0, 0)
-    setAssistError(null)
+    setAssistNotification(null)
   }
 
   const getWorkoutFromDB = async (workoutCount) => {
@@ -665,7 +665,7 @@ const WorkoutHome = ({
       setNotificationMessage(err.response.data)
       window.scrollTo(0, 0)
     }
-    setAssistError(null)
+    setAssistNotification(null)
   }
 
   const handlePrev = async () => {
@@ -681,7 +681,7 @@ const WorkoutHome = ({
       setNotificationMessage(err.response.data)
       window.scrollTo(0, 0)
     }
-    setAssistError(null)
+    setAssistNotification(null)
   }
 
   const handleCurrent = async (userFound) => {
@@ -702,7 +702,7 @@ const WorkoutHome = ({
         }
         setNavState('current')
         setWorkoutLoading(false)
-        setAssistError(null)
+        setAssistNotification(null)
         // setNotificationMessage(null)
         return
       }
@@ -724,7 +724,7 @@ const WorkoutHome = ({
       setNotificationMessage(err.response.data)
       window.scrollTo(0, 0)
     }
-    setAssistError(null)
+    setAssistNotification(null)
   }
 
   // Set workout for user on initial load
@@ -808,6 +808,16 @@ const WorkoutHome = ({
         handleRMChange={handleRMChange}
         handleTMChange={handleTMChange}
       />
+          
+      <div className='notification'>
+        {assistNotification}
+      </div>
+
+      <AssistAddBlock
+        assistAdd={assistAdd}
+        handleAssistAddInput={handleAssistAddInput}
+        handleNewAssist={handleNewAssist}
+      />
 
       <section id='workout-session'>
 
@@ -854,17 +864,7 @@ const WorkoutHome = ({
               />
             )
           })}
-              
-          <div className='error'>
-            {assistError}
-          </div>
-
-          <AssistAddBlock
-            assistAdd={assistAdd}
-            handleAssistAddInput={handleAssistAddInput}
-            handleNewAssist={handleNewAssist}
-          />
-
+           
         </div>
 
       </section>

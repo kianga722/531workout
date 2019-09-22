@@ -16,7 +16,7 @@ code {
   padding: 1rem;
 }
 
-.error {
+.notification {
   color: red;
   font-size: 20px;
 }

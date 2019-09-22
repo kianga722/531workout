@@ -8,7 +8,7 @@ const RMCalcBlock = ({
     <section id='rm-calc'>
 
       <div className='title'>
-        Calculate your 1 Rep Max!
+        1 Rep Max Calculator
       </div>
       
       <div className='rm-calc-weight'>
