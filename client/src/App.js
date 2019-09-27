@@ -70,6 +70,8 @@ function App() {
       await axios.get('/api/login/logout')
       await localStorage.clear()
       setUser(null)
+      setEmail('')
+      setPassword('')
     } catch (err) {
       setNotificationMessage(err.response.data)
     }

@@ -9,7 +9,7 @@ const User = require('../models/User');
 const mailer = require('../utils/mailer');
 const config = require('../utils/config');
 
-const appHost = process.env.NODE_ENV ? config.HEROKU_APP_URL : config.LOCAL_URL;
+const appHost = process.env.NODE_ENV === 'production' ? config.HEROKU_APP_URL : config.LOCAL_URL;
 
 // Signup
 usersRouter.post('/', async (req, res, next) => {
