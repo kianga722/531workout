@@ -11,6 +11,9 @@ const transport = nodemailer.createTransport({
 
 module.exports = {
   sendEmail(from, to, subject, html) {
+    if (process.env.NODE_ENV === 'test') {
+      return;
+    }
     return new Promise((resolve, reject) => {
       transport.sendMail({
         from, subject, to, html,

@@ -1703,7 +1703,7 @@ describe('Workout', function () {
       cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
     })
 
-    it('Failing an exercise in TMTesting week will recalculate the exercise for the following cycle', function () {
+    it('Going back and failing an exercise in TMTesting week will not cause a recalculation unless the Recalculate button is clicked', function () {
       cy.contains('Previous').click()
       cy.contains('Workout #30')
       cy.contains('Previous').click()
@@ -1721,6 +1721,15 @@ describe('Workout', function () {
       cy.contains('Current').click()
       cy.contains('Workout #31')
 
+      cy.get('#squat-calc .exercise-one-rm input').should('have.attr', 'value', '238')
+      cy.get('#squat-calc .exercise-tm input').should('have.attr', 'value', '245')
+      cy.get('#bench-calc .exercise-one-rm input').should('have.attr', 'value', '143')
+      cy.get('#bench-calc .exercise-tm input').should('have.attr', 'value', '142.5')
+      cy.get('#deadlift-calc .exercise-one-rm input').should('have.attr', 'value', '206')
+      cy.get('#deadlift-calc .exercise-tm input').should('have.attr', 'value', '215')
+      cy.get('#opress-calc .exercise-one-rm input').should('have.attr', 'value', '84')
+      cy.get('#opress-calc .exercise-tm input').should('have.attr', 'value', '90')
+
       cy.contains('Recalculate').click()
 
       cy.get('#squat-calc .exercise-one-rm input').should('have.attr', 'value', '238')
@@ -1733,7 +1742,7 @@ describe('Workout', function () {
       cy.get('#opress-calc .exercise-tm input').should('have.attr', 'value', '80')
     })
 
-    it('Failing a different exercise in TMTesting week will recalculate the exercise for the following cycle', function () {
+    it('Going back and failing a different exercise in TMTesting week will not cause a recalculation unless the Recalculate button is clicked', function () {
       cy.contains('Previous').click()
       cy.contains('Workout #30')
 
@@ -1746,6 +1755,15 @@ describe('Workout', function () {
 
       cy.contains('Current').click()
       cy.contains('Workout #31')
+
+      cy.get('#squat-calc .exercise-one-rm input').should('have.attr', 'value', '238')
+      cy.get('#squat-calc .exercise-tm input').should('have.attr', 'value', '245')
+      cy.get('#bench-calc .exercise-one-rm input').should('have.attr', 'value', '143')
+      cy.get('#bench-calc .exercise-tm input').should('have.attr', 'value', '142.5')
+      cy.get('#deadlift-calc .exercise-one-rm input').should('have.attr', 'value', '206')
+      cy.get('#deadlift-calc .exercise-tm input').should('have.attr', 'value', '215')
+      cy.get('#opress-calc .exercise-one-rm input').should('have.attr', 'value', '90')
+      cy.get('#opress-calc .exercise-tm input').should('have.attr', 'value', '80')
 
       cy.contains('Recalculate').click()
 
