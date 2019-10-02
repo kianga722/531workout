@@ -7,7 +7,7 @@ const getSideWeight = (weight) => {
   if (weight - 45 < 0) {
     return 0
   }
-  return calcWeight((weight-45)/2, 1, 2.5)
+  return calcWeight((weight-45)/2, 1, 1.25, 2)
 }
 
 const inputReps = (inputValue, handleWorkoutInput) => {
