@@ -61,11 +61,14 @@ const WorkoutHeading = ({
       }
       {
         navState === 'current' &&
-        <button
-          onClick={(event) => handleReCalc(user)}
-        >
-          Recalculate 1RM and TM
-        </button>
+        <div className='recalc-wrapper'>
+          <div
+            className='recalc-button'
+            onClick={(event) => handleReCalc(user)}
+          >
+            Recalculate 1RM and TM
+          </div>
+        </div>
       }
     
     </section>

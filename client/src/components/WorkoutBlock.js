@@ -31,10 +31,10 @@ const WorkoutBlock = ({
           Reps
         </span>
         <span>
-          Side Weight
+          Side
         </span>
         <span>
-          Reps Completed
+          Reps Done
         </span>
       </div>
 

@@ -24,12 +24,14 @@ const SignupForm = ({
   return (
     <div id='signup'>
 
-      <h2>Signup</h2>
+      <h2>Create your account now</h2>
 
-      <form onSubmit={handleSubmit}>
+      <form>
 
-        <div>
-          Email
+        <div className='form-wrapper'>
+          <div className='form-title'>
+            Email
+          </div>
           <input
             id='emailSignup'
             type='email'
@@ -38,8 +40,10 @@ const SignupForm = ({
           />
         </div>
 
-        <div>
-          Password
+        <div className='form-wrapper'>
+          <div className='form-title'>
+            Password
+          </div>
           <input
             id='passwordSignup'
             type='password'
@@ -48,8 +52,10 @@ const SignupForm = ({
           />
         </div>
 
-        <div>
-          Confirm Password
+        <div className='form-wrapper'>
+          <div className='form-title'>
+            Confirm Password
+          </div>
           <input
             id='password2Signup'
             type='password'
@@ -58,13 +64,21 @@ const SignupForm = ({
           />
         </div>
 
-        <button type="submit">Signup</button>
-
+        <div className='submit-wrapper'>
+          <input
+            className='submit-button'
+            type='submit'
+            onClick={handleSubmit}
+            value='Create your account'
+          >
+          </input>
+        </div>
+        
       </form>
 
       <div className='links'>
         <div className='links-login'>
-          Already have an account? <Link to="/login">Login</Link>
+          Already have an account? <Link to="/login">Sign in</Link>
         </div>
         <div className='links-resend'>
           Problems activating your account? <Link to="/resend">Resend Email Confirmation</Link>

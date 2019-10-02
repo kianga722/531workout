@@ -22,12 +22,14 @@ const LoginForm = ({
   return (
     <div id='login'>
 
-      <h2>Login</h2>
+      <h2>Welcome back!</h2>
 
-      <form onSubmit={handleSubmit}>
+      <form>
 
-        <div>
-          Email
+        <div className='form-wrapper'>
+          <div className='form-title'>
+            Email
+          </div>
           <input
             id='email'
             type='email'
@@ -36,8 +38,10 @@ const LoginForm = ({
           />
         </div>
 
-        <div>
-          Password
+        <div className='form-wrapper'>
+          <div className='form-title'>
+            Password
+          </div>
           <input
             id='password'
             type="password"
@@ -46,7 +50,15 @@ const LoginForm = ({
           />
         </div>
 
-        <button type="submit">Login</button>
+        <div className='submit-wrapper'>
+          <input
+            className='submit-button'
+            type='submit'
+            onClick={handleSubmit}
+            value='Sign in to your account'
+          >
+          </input>
+        </div>
 
       </form>
 
@@ -55,7 +67,7 @@ const LoginForm = ({
           <Link to="/forgot">Forgot password?</Link>
         </div>
         <div className='links-register'>
-          No account? <Link to="/signup">Signup here</Link>
+          Don't have an account? <Link to="/signup">Sign up</Link>
         </div>
         <div className='links-resend'>
           Problems activating your account? <Link to="/resend">Resend Email Confirmation</Link>

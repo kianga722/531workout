@@ -1,6 +1,5 @@
 import React from 'react'
 
-
 const inputReps = (inputValue, handleWorkoutInput, exercise, key) => {
   return (
     <input
@@ -14,9 +13,10 @@ const inputReps = (inputValue, handleWorkoutInput, exercise, key) => {
 
 const AssistExercise = ({
   assistName,
+  assistFormat,
   assistWorkout,
   handleWorkoutInput,
-  handleAssistDelete
+  setConfirmPopup,
 }) => {
   const { sets, reps } = assistWorkout
 
@@ -24,20 +24,26 @@ const AssistExercise = ({
     <div
       className='assist-exercise-wrapper'
     >
-      <button
-        id={assistName}
-        onClick={handleAssistDelete}
-      >
-          Delete {assistName}
-      </button>
-      <div className='assist-title'>
-        <div className='assist-name'>
-          {assistName}
+
+      <div className='title-delete-wrapper'>
+        <div className='assist-title'>
+          <div className='assist-name'>
+            {assistFormat[assistName]}
+          </div>
+          <div className='assist-sets-reps'>
+            {sets}x{reps}
+          </div>
         </div>
-        <div className='assist-sets-reps'>
-          {sets}x{reps}
+
+        <div
+          id={`delete-${assistName}`}
+          className='delete-assist'
+          onClick={(event) => setConfirmPopup([`Are you sure you want to remove ${assistFormat[assistName]} from your Workout?`, assistName])}
+        >
+            Remove
         </div>
       </div>
+
       <div className='assist-input-wrapper'>
         {Object.keys(assistWorkout).map(key => {
           if (key === 'sets' || key === 'reps') {

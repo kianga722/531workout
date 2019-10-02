@@ -19,10 +19,12 @@ const ResendEmail = ({
   
       <h2>Resend Email Activation</h2>
 
-      <form onSubmit={handleSubmit}>
+      <form>
 
-        <div>
-          Email
+        <div className='form-wrapper'>
+          <div className='form-title'>
+            Email
+          </div>
           <input
             id='emailResend'
             type='email'
@@ -31,7 +33,15 @@ const ResendEmail = ({
           />
         </div>
 
-        <button type="submit">Resend Email</button>
+        <div className='submit-wrapper'>
+          <input
+            className='submit-button'
+            type='submit'
+            onClick={handleSubmit}
+            value='Resend Email'
+          >
+          </input>
+        </div>
 
       </form>
 

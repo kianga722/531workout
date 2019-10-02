@@ -27,19 +27,20 @@ describe('Workout', function () {
 
   describe('user can login', function () { 
     it('front page can be opened', function() {
-      cy.contains('Demo Workout')
+      cy.contains('TRY A DEMO WORKOUT BELOW')
     })
 
     it('user can login', function() {
-      cy.contains('Login')
+      cy.contains('Sign in')
         .click()
       cy.get('#email')
         .type('foo@bar.com')
       cy.get('#password')
         .type('foobar')
-      cy.get('#login button')
+      cy.get('#login .submit-button')
         .click()
-      cy.contains('foo@bar.com logged in')
+       cy.contains('Logged in as:')
+      cy.contains('foo@bar.com')
     })
   })
 
@@ -74,18 +75,21 @@ describe('Workout', function () {
     it('able to add assistance workouts', function() {
       cy.get('.assist-setCount input').type('10')
       cy.get('.assist-repCount input').type('5')
-      cy.get('.add-assist-wrapper button').click()
-      cy.contains('pushups 10x5 added')
+      cy.get('.add-assist-wrapper .add-button').click()
+      cy.contains('Pushups 10x5 added')
+      cy.get('.notification-close').click()
       cy.get('.assist-input-wrapper input').should('have.length', 10)
 
-      cy.get('.add-assist-wrapper select').select('chinups')
-      cy.get('.add-assist-wrapper button').click()
-      cy.contains('chinups 10x5 added')
+      cy.get('.add-assist-wrapper select').select('Chinups')
+      cy.get('.add-assist-wrapper .add-button').click()
+      cy.contains('Chinups 10x5 added')
+      cy.get('.notification-close').click()
       cy.get('.assist-input-wrapper input').should('have.length', 20)
 
-      cy.get('.add-assist-wrapper select').select('legraises')
-      cy.get('.add-assist-wrapper button').click()
-      cy.contains('legraises 10x5 added')
+      cy.get('.add-assist-wrapper select').select('Leg Raises')
+      cy.get('.add-assist-wrapper .add-button').click()
+      cy.contains('Leg Raises 10x5 added')
+      cy.get('.notification-close').click()
       cy.get('.assist-input-wrapper input').should('have.length', 30)
     })
 
@@ -152,10 +156,11 @@ describe('Workout', function () {
       cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) input:nth-child(9)').type(5)
       cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) input:nth-child(10)').type(5)
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('chinups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Chinups')
 
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #1 saved')
+      cy.get('.notification-close').click()
     })
   })
 
@@ -172,7 +177,7 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2) .exercise-title').contains('Overhead Press')
     })
 
-    it('next workout has RMTM values saved and chinups turn into pullups', function () {
+    it('next workout has RMTM values saved and Chinups turn into Pullups', function () {
       cy.get('#squat-calc .exercise-one-rm input').should('have.attr', 'value', '238')
       cy.get('#squat-calc .exercise-tm input').should('have.attr', 'value', '215')
       cy.get('#bench-calc .exercise-one-rm input').should('have.attr', 'value', '143')
@@ -182,12 +187,13 @@ describe('Workout', function () {
       cy.get('#opress-calc .exercise-one-rm input').should('have.attr', 'value', '84')
       cy.get('#opress-calc .exercise-tm input').should('have.attr', 'value', '75')
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('pullups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Pullups')
     })
 
     it('can proceed to next workout using next', function () {
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #2 saved')
+      cy.get('.notification-close').click()
       cy.contains('Next').click()
       cy.contains('Workout #3')
 
@@ -195,7 +201,7 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2) .exercise-title').contains('Squat')
     })
 
-    it('next workout has RMTM values saved and pullups turn into chinups', function () {
+    it('next workout has RMTM values saved and Pullups turn into Chinups', function () {
       cy.get('#squat-calc .exercise-one-rm input').should('have.attr', 'value', '238')
       cy.get('#squat-calc .exercise-tm input').should('have.attr', 'value', '215')
       cy.get('#bench-calc .exercise-one-rm input').should('have.attr', 'value', '143')
@@ -205,7 +211,7 @@ describe('Workout', function () {
       cy.get('#opress-calc .exercise-one-rm input').should('have.attr', 'value', '84')
       cy.get('#opress-calc .exercise-tm input').should('have.attr', 'value', '75')
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('chinups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Chinups')
     })
 
   })
@@ -260,7 +266,7 @@ describe('Workout', function () {
 
   describe('user can logout and other user can login', function () { 
     it('user can logout', function() {
-      cy.contains('Logout').click()
+      cy.contains('Sign Out').click()
       cy.contains('Forgot password?')
     })
 
@@ -269,9 +275,10 @@ describe('Workout', function () {
         .type('foobarman@bar.com')
       cy.get('#password')
         .type('foobar2')
-      cy.get('#login button')
+      cy.get('#login .submit-button')
         .click()
-      cy.contains('foobarman@bar.com logged in')
+      cy.contains('Logged in as:')
+      cy.contains('foobarman@bar.com')
     })
 
     it('other user that is new is on workout #1 and empty workout inputs', function() {
@@ -306,8 +313,9 @@ describe('Workout', function () {
       cy.get('.after-rmtm-complete').should(
         'exist')
       
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #1 saved')
+      cy.get('.notification-close').click()
 
       cy.contains('Next').click()
       cy.contains('Workout #2')
@@ -316,7 +324,7 @@ describe('Workout', function () {
 
   describe('original user can login and will start on latest workout', function () { 
     it('other user can logout', function() {
-      cy.contains('Logout').click()
+      cy.contains('Sign Out').click()
       cy.contains('Forgot password?')
     })
 
@@ -325,14 +333,15 @@ describe('Workout', function () {
         .type('foo@bar.com')
       cy.get('#password')
         .type('foobar')
-      cy.get('#login button')
+      cy.get('#login .submit-button')
         .click()
-      cy.contains('foo@bar.com logged in')
+      cy.contains('Logged in as:')
+      cy.contains('foo@bar.com')
     })
 
     it('original user starts on latest workout', function() {
       cy.contains('Workout #3')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('chinups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Chinups')
     })
   })
 
@@ -342,7 +351,7 @@ describe('Workout', function () {
 
       cy.contains('Previous').click()
       cy.contains('Workout #2')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('pullups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Pullups')
 
       cy.get('#workout-session .exercise-wrapper:nth-child(1) .exercise-row:nth-child(3) input').should('have.attr', 'value', '')
       cy.get('#workout-session .exercise-wrapper:nth-child(1) .exercise-row:nth-child(4) input').should('have.attr', 'value', '')
@@ -407,7 +416,7 @@ describe('Workout', function () {
       cy.contains('Workout #1')
       cy.get('#workout-session .exercise-wrapper:nth-child(1) .exercise-title').contains('Squat')
       cy.get('#workout-session .exercise-wrapper:nth-child(2) .exercise-title').contains('Bench')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('chinups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Chinups')
 
       cy.get('#workout-session .exercise-wrapper:nth-child(1) .exercise-row:nth-child(3) input').should('have.attr', 'value', '5')
       cy.get('#workout-session .exercise-wrapper:nth-child(1) .exercise-row:nth-child(4) input').should('have.attr', 'value', '5')
@@ -474,8 +483,9 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2) .exercise-title').contains('Overhead Press')
 
       cy.get('#workout-session .exercise-wrapper:nth-child(1) .exercise-row:nth-child(8) input').type(9)
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #2 saved')
+      cy.get('.notification-close').click()
     })
 
     it('current workout inputs are saved', function () {
@@ -542,12 +552,13 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(8) span:nth-child(1)').contains('85%')
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(9) span:nth-child(1)').contains('65%')
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('chinups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Chinups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
 
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #3 saved')
+      cy.get('.notification-close').click()
     })
 
     it('verifies next 6 workouts before TM increase', function () {
@@ -585,12 +596,13 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(8) span:nth-child(1)').contains('90%')
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(9) span:nth-child(1)').contains('70%')
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('pullups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Pullups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
 
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #4 saved')
+      cy.get('.notification-close').click()
 
       cy.contains('Next').click()
       cy.contains('Workout #5')
@@ -626,12 +638,13 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(8) span:nth-child(1)').contains('90%')
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(9) span:nth-child(1)').contains('70%')
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('chinups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Chinups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
 
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #5 saved')
+      cy.get('.notification-close').click()
 
       cy.contains('Next').click()
       cy.contains('Workout #6')
@@ -667,12 +680,13 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(8) span:nth-child(1)').contains('90%')
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(9) span:nth-child(1)').contains('70%')
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('pullups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Pullups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
 
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #6 saved')
+      cy.get('.notification-close').click()
 
       cy.contains('Next').click()
       cy.contains('Workout #7')
@@ -708,12 +722,13 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(8) span:nth-child(1)').contains('95%')
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(9) span:nth-child(1)').contains('75%')
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('chinups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Chinups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
 
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #7 saved')
+      cy.get('.notification-close').click()
 
       cy.contains('Next').click()
       cy.contains('Workout #8')
@@ -749,12 +764,13 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(8) span:nth-child(1)').contains('95%')
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(9) span:nth-child(1)').contains('75%')
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('pullups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Pullups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
 
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #8 saved')
+      cy.get('.notification-close').click()
 
       cy.contains('Next').click()
       cy.contains('Workout #9')
@@ -790,12 +806,13 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(8) span:nth-child(1)').contains('95%')
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(9) span:nth-child(1)').contains('75%')
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('chinups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Chinups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
 
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #9 saved')
+      cy.get('.notification-close').click()
     })
 
     it('TM increases on 10th workout', function () {
@@ -833,12 +850,13 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(8) span:nth-child(1)').contains('85%')
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(9) span:nth-child(1)').contains('65%')
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('pullups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Pullups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
 
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #10 saved')
+      cy.get('.notification-close').click()
     })
 
     it('verifies next 8 workouts before TM increase', function () {
@@ -876,12 +894,13 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(8) span:nth-child(1)').contains('85%')
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(9) span:nth-child(1)').contains('65%')
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('chinups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Chinups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
 
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #11 saved')
+      cy.get('.notification-close').click()
 
       cy.contains('Next').click()
       cy.contains('Workout #12')
@@ -917,12 +936,13 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(8) span:nth-child(1)').contains('85%')
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(9) span:nth-child(1)').contains('65%')
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('pullups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Pullups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
 
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #12 saved')
+      cy.get('.notification-close').click()
 
       cy.contains('Next').click()
       cy.contains('Workout #13')
@@ -958,12 +978,13 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(8) span:nth-child(1)').contains('90%')
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(9) span:nth-child(1)').contains('70%')
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('chinups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Chinups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
 
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #13 saved')
+      cy.get('.notification-close').click()
 
       cy.contains('Next').click()
       cy.contains('Workout #14')
@@ -999,12 +1020,13 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(8) span:nth-child(1)').contains('90%')
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(9) span:nth-child(1)').contains('70%')
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('pullups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Pullups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
 
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #14 saved')
+      cy.get('.notification-close').click()
 
       cy.contains('Next').click()
       cy.contains('Workout #15')
@@ -1040,12 +1062,13 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(8) span:nth-child(1)').contains('90%')
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(9) span:nth-child(1)').contains('70%')
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('chinups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Chinups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
 
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #15 saved')
+      cy.get('.notification-close').click()
 
       cy.contains('Next').click()
       cy.contains('Workout #16')
@@ -1081,12 +1104,13 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(8) span:nth-child(1)').contains('95%')
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(9) span:nth-child(1)').contains('75%')
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('pullups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Pullups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
 
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #16 saved')
+      cy.get('.notification-close').click()
 
       cy.contains('Next').click()
       cy.contains('Workout #17')
@@ -1122,12 +1146,13 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(8) span:nth-child(1)').contains('95%')
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(9) span:nth-child(1)').contains('75%')
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('chinups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Chinups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
 
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #17 saved')
+      cy.get('.notification-close').click()
 
       cy.contains('Next').click()
       cy.contains('Workout #18')
@@ -1163,12 +1188,13 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(8) span:nth-child(1)').contains('95%')
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(9) span:nth-child(1)').contains('75%')
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('pullups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Pullups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
 
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #18 saved')
+      cy.get('.notification-close').click()
     })
 
     it('TM increases on 19th workout', function () {
@@ -1206,12 +1232,13 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(8) span:nth-child(1)').contains('85%')
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(9) span:nth-child(1)').contains('65%')
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('chinups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Chinups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
 
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #19 saved')
+      cy.get('.notification-close').click()
     })
 
     it('verifies next 8 workouts before TMTesting week', function () {
@@ -1249,12 +1276,13 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(8) span:nth-child(1)').contains('85%')
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(9) span:nth-child(1)').contains('65%')
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('pullups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Pullups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
 
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #20 saved')
+      cy.get('.notification-close').click()
 
       cy.contains('Next').click()
       cy.contains('Workout #21')
@@ -1290,12 +1318,13 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(8) span:nth-child(1)').contains('85%')
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(9) span:nth-child(1)').contains('65%')
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('chinups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Chinups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
 
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #21 saved')
+      cy.get('.notification-close').click()
 
       cy.contains('Next').click()
       cy.contains('Workout #22')
@@ -1331,12 +1360,13 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(8) span:nth-child(1)').contains('90%')
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(9) span:nth-child(1)').contains('70%')
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('pullups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Pullups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
 
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #22 saved')
+      cy.get('.notification-close').click()
 
       cy.contains('Next').click()
       cy.contains('Workout #23')
@@ -1372,12 +1402,13 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(8) span:nth-child(1)').contains('90%')
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(9) span:nth-child(1)').contains('70%')
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('chinups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Chinups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
 
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #23 saved')
+      cy.get('.notification-close').click()
 
       cy.contains('Next').click()
       cy.contains('Workout #24')
@@ -1413,12 +1444,13 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(8) span:nth-child(1)').contains('90%')
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(9) span:nth-child(1)').contains('70%')
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('pullups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Pullups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
 
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #24 saved')
+      cy.get('.notification-close').click()
 
       cy.contains('Next').click()
       cy.contains('Workout #25')
@@ -1454,12 +1486,13 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(8) span:nth-child(1)').contains('95%')
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(9) span:nth-child(1)').contains('75%')
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('chinups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Chinups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
 
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #25 saved')
+      cy.get('.notification-close').click()
 
       cy.contains('Next').click()
       cy.contains('Workout #26')
@@ -1495,12 +1528,13 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(8) span:nth-child(1)').contains('95%')
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(9) span:nth-child(1)').contains('75%')
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('pullups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Pullups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
 
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #26 saved')
+      cy.get('.notification-close').click()
 
       cy.contains('Next').click()
       cy.contains('Workout #27')
@@ -1536,12 +1570,13 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(8) span:nth-child(1)').contains('95%')
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(9) span:nth-child(1)').contains('75%')
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('chinups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Chinups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
 
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #27 saved')
+      cy.get('.notification-close').click()
     })
 
   })
@@ -1587,12 +1622,13 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(9) input').type(4)
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(10) span:nth-child(1)').contains('70%')
   
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('pullups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Pullups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
   
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #28 saved')
+      cy.get('.notification-close').click()
 
       cy.contains('Next').click()
       cy.contains('Workout #29')
@@ -1621,12 +1657,13 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(1)  .exercise-row:nth-child(9) input').type(7)
       cy.get('#workout-session .exercise-wrapper:nth-child(1)  .exercise-row:nth-child(10) span:nth-child(1)').contains('70%')
   
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('chinups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Chinups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
   
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #29 saved')
+      cy.get('.notification-close').click()
 
       cy.contains('Next').click()
       cy.contains('Workout #30')
@@ -1655,12 +1692,13 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(1)  .exercise-row:nth-child(9) input').type(8)
       cy.get('#workout-session .exercise-wrapper:nth-child(1)  .exercise-row:nth-child(10) span:nth-child(1)').contains('70%')
   
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('pullups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Pullups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
   
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #30 saved')
+      cy.get('.notification-close').click()
     })
 
     it('Cycle after TMTesting week keeps all weight values ', function () {
@@ -1698,9 +1736,9 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(8) span:nth-child(1)').contains('85%')
       cy.get('#workout-session .exercise-wrapper:nth-child(2)  .exercise-row:nth-child(9) span:nth-child(1)').contains('65%')
 
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('pushups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('chinups')
-      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('legraises')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(1) .assist-name').contains('Pushups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(2) .assist-name').contains('Chinups')
+      cy.get('.assistance-wrapper .assist-exercise-wrapper:nth-child(3) .assist-name').contains('Leg Raises')
     })
 
     it('Going back and failing an exercise in TMTesting week will not cause a recalculation unless the Recalculate button is clicked', function () {
@@ -1715,8 +1753,9 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(1)  .exercise-row:nth-child(9) input').clear()
       cy.get('#workout-session .exercise-wrapper:nth-child(1)  .exercise-row:nth-child(9) input').type(1)
 
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #28 saved')
+      cy.get('.notification-close').click()
 
       cy.contains('Current').click()
       cy.contains('Workout #31')
@@ -1750,8 +1789,9 @@ describe('Workout', function () {
       cy.get('#workout-session .exercise-wrapper:nth-child(1)  .exercise-row:nth-child(9) input').clear()
       cy.get('#workout-session .exercise-wrapper:nth-child(1)  .exercise-row:nth-child(9) input').type(2)
 
-      cy.get('#finish-options button').click()
-      cy.contains('Workout saved')
+      cy.get('#finish-options .done-button').click()
+      cy.contains('Workout #30 saved')
+      cy.get('.notification-close').click()
 
       cy.contains('Current').click()
       cy.contains('Workout #31')

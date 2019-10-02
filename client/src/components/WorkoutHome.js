@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 import LoadingWorkout from './LoadingWorkout'
+import ConfirmPopup from './ConfirmPopup'
 import WorkoutNav from './WorkoutNav'
 import WorkoutHeading from './WorkoutHeading'
 import RMCalcBlock from './RMCalcBlock'
@@ -16,8 +17,6 @@ const WorkoutHome = ({
   setNotificationMessage,
   user
 }) => {
-  const [assistNotification, setAssistNotification] = useState(null)
-
   const [workoutLoading, setWorkoutLoading] = useState(true)
   const [navState, setNavState] = useState('')
 
@@ -26,6 +25,10 @@ const WorkoutHome = ({
   const [cycle, setCycle] = useState(1)
   const [week, setWeek] = useState(1)
   const [section, setSection] = useState(1)
+
+  // Confirm Popup
+  const [confirmPopup, setConfirmPopup] = useState(null)
+  const node = useRef();
 
   const [RMTMCompleted, setRMTMCompleted] = useState(false)
   const [completed, setCompleted] = useState(false)
@@ -144,6 +147,13 @@ const WorkoutHome = ({
     'chinups': [chinups, setChinups],
     'pullups': [pullups, setPullups],
     'legraises': [legraises, setLegRaises]
+  }
+
+  const assistFormat = {
+    'pushups': 'Pushups',
+    'chinups': 'Chinups',
+    'pullups': 'Pullups',
+    'legraises': 'Leg Raises'
   }
 
   const getPercentage = (cycle, week) => {
@@ -266,11 +276,11 @@ const WorkoutHome = ({
   const handleNewAssist = () => {
     const { exercise, sets, reps } = assistAdd
     if (!exercise || !sets || !reps) {
-      setAssistNotification('Please fill in all Add Assistance Workout fields ')
+      setNotificationMessage('Please fill in both Sets and Reps fields before adding an Assistance Exercise')
       return
     }
     if (assistList.includes(exercise)) {
-      setAssistNotification(`${exercise} already added`)
+      setNotificationMessage(`${assistFormat[exercise]} already added`)
       return
     }
     setAssistList(assistList.concat(exercise))
@@ -284,7 +294,7 @@ const WorkoutHome = ({
       newAssist[repsName] = ''
     }
     assistMap[exercise][1](newAssist)
-    setAssistNotification(`${exercise} ${sets}x${reps} added`)
+    setNotificationMessage(`${assistFormat[exercise]} ${sets}x${reps} added (Assistance Exercises located at the end of the Workout)`)
   }
 
   const handleAssistInput = ({target}, exercise, key) => {
@@ -302,6 +312,7 @@ const WorkoutHome = ({
 
     // Update specific assist state
     assistMap[assistName][1]({})
+    setConfirmPopup(null)
   }
 
   const saveWorkoutToDB = async () => {
@@ -338,13 +349,13 @@ const WorkoutHome = ({
         setCompleted(true)
         setNavState('prev')
         setWorkoutLatest(workoutLatest + 1)
-        setNotificationMessage('Workout saved')
+        setNotificationMessage(`Workout #${workoutCount} saved`)
       }
     } catch (err) {
       setNotificationMessage(err.response.data)
     }
     window.scrollTo(0, 0)
-    setAssistNotification(null)
+    //setNotificationMessage(null)
   }
 
   const getWorkoutFromDB = async (workoutCount) => {
@@ -666,7 +677,7 @@ const WorkoutHome = ({
       setNotificationMessage(err.response.data)
       window.scrollTo(0, 0)
     }
-    setAssistNotification(null)
+    setNotificationMessage(null)
   }
 
   const handlePrev = async () => {
@@ -682,7 +693,7 @@ const WorkoutHome = ({
       setNotificationMessage(err.response.data)
       window.scrollTo(0, 0)
     }
-    setAssistNotification(null)
+    setNotificationMessage(null)
   }
 
   const handleCurrent = async (userFound) => {
@@ -703,7 +714,6 @@ const WorkoutHome = ({
         }
         setNavState('current')
         setWorkoutLoading(false)
-        setAssistNotification(null)
         // setNotificationMessage(null)
         return
       }
@@ -725,8 +735,18 @@ const WorkoutHome = ({
       setNotificationMessage(err.response.data)
       window.scrollTo(0, 0)
     }
-    setAssistNotification(null)
+    setNotificationMessage(null)
   }
+
+  // Confirm Popup Handle Clicks
+  const handleClick = e => {
+    if (node.current && node.current.contains(e.target)) {
+      // inside click
+      return;
+    }
+    // outside click 
+    setConfirmPopup(null)
+  };
 
   // Set workout for user on initial load
   useEffect(() => {
@@ -758,7 +778,6 @@ const WorkoutHome = ({
           })
         }
     
-        console.log('saving', saveObject)
         localStorage.setItem('currentWorkout', JSON.stringify(saveObject))
       }
     }
@@ -775,10 +794,20 @@ const WorkoutHome = ({
     setRMTMCompleted(true)
   }, [RMTM])
 
+  // Handle confirm popup mouse clicks
+  useEffect(() => {
+    // add when mounted
+    document.addEventListener("mousedown", handleClick);
+    // return function to be called when unmounted
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
 
   return (
-    <div>
+    <div id='home-logged-in'>
 
     {
       workoutLoading &&
@@ -788,6 +817,28 @@ const WorkoutHome = ({
     {
       !workoutLoading &&
       <div id='workout-home'>
+          
+      {
+        confirmPopup !== null &&
+        <ConfirmPopup
+          node={node}
+          message={confirmPopup[0]}
+          setConfirmPopup={setConfirmPopup}
+          handleYes={(event) => handleAssistDelete(confirmPopup[1])}
+        />
+      }
+          
+      {
+      user &&
+      <div className='logged-in'>
+        <div>
+          Logged in as:
+        </div>
+        <div className='user-email'>
+          {user.email}
+        </div>
+      </div>
+      }
 
       <WorkoutNav
         setNotificationMessage={setNotificationMessage}
@@ -810,30 +861,26 @@ const WorkoutHome = ({
         user={user}
       />
 
-      <RMCalcBlock
-        RMCalc={RMCalc}
-        handleRMCalc={handleRMCalc}
-      />
-
       <RMTMList
         RMTM={RMTM}
         handleRMChange={handleRMChange}
         handleTMChange={handleTMChange}
       />
           
+      <RMCalcBlock
+        RMCalc={RMCalc}
+        handleRMCalc={handleRMCalc}
+      />
+          
       { RMTMCompleted &&
         <div className='after-rmtm-complete'>
             
-          <div className='notification'>
-            {assistNotification}
-          </div>
-
           <AssistAddBlock
             assistAdd={assistAdd}
             handleAssistAddInput={handleAssistAddInput}
             handleNewAssist={handleNewAssist}
-          />
-
+            />
+            
           <section id='workout-session'>
 
             <WorkoutBlock
@@ -873,9 +920,13 @@ const WorkoutHome = ({
                   <AssistExercise
                     key={assistName}
                     assistName={assistName}
+                    assitMap={assistMap}
+                    assistFormat={assistFormat}
                     assistWorkout={assistMap[assistName][0]}
                     handleWorkoutInput={handleAssistInput}
                     handleAssistDelete={(event) => handleAssistDelete(assistName, assistMap[assistName][1])}
+                    confirmPopup={confirmPopup}
+                    setConfirmPopup={setConfirmPopup}
                   />
                 )
               })}
@@ -885,11 +936,12 @@ const WorkoutHome = ({
           </section>
 
           <section id='finish-options'>
-            <button
+              <div
+                className='done-button'
               onClick={(event) => handleDone(week, section)}
             >
-              Done
-            </button>
+              Finish Workout
+            </div>
           </section>
 
         </div>

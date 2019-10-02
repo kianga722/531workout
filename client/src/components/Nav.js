@@ -7,23 +7,26 @@ const Nav = ({
   handleLogout
 }) => {
   return (
-    <div id='nav-main'>
-      <Link to="/">Home</Link>
+    <nav id='nav-main'>
+      
+      <Link className='link-home' to="/">531Workout</Link>
         {
-          user === null ? <Link to="/login">Login</Link> : <div>{user.email} logged in</div>
-        }
-        {
-          user === null && <Link to="/signup">Signup</Link>
-        }
-        {
-          user &&
-          <button
+          user === null ?
+          <Link
+            className='link-login'
+            to="/login"
+          >
+            Sign in
+          </Link> :
+          <div
+            className='link-logout'
             onClick={(event) => handleLogout(event)}
           >
-            Logout
-          </button>
+            Sign Out
+          </div>
         }
-    </div>
+    
+    </nav>
   )
 }
 

@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import {
   Link
 } from 'react-router-dom'
 
+import ConfirmPopup from './ConfirmPopup'
 import RMCalcBlock from './RMCalcBlock'
 import RMTMList from './RMTMList'
 import WorkoutBlock from './WorkoutBlock'
@@ -11,8 +12,12 @@ import AssistExercise from './AssistExercise'
 
 import { calcWeight, calc1RM } from '../helpers'
 
-const Home = () => {
-  const [assistNotificationDemo, setAssistNotificationDemo] = useState(null)
+const Home = ({
+  setNotificationMessage,
+}) => {
+  // Confirm Popup
+  const [confirmPopup, setConfirmPopup] = useState(null)
+  const node = useRef();
 
   const [RMTMCompletedDemo, setRMTMCompletedDemo] = useState(false)
 
@@ -131,6 +136,12 @@ const Home = () => {
     'legraises': [legraisesDemo, setLegRaisesDemo]
   }
 
+  const assistFormat = {
+    'pushups': 'Pushups',
+    'chinups': 'Chinups',
+    'pullups': 'Pullups',
+    'legraises': 'Leg Raises'
+  }
 
   const getPercentage = (cycle, week) => {
     const percentageMap = {
@@ -252,11 +263,11 @@ const Home = () => {
   const handleNewAssist = () => {
     const { exercise, sets, reps } = assistAddDemo
     if (!exercise || !sets || !reps) {
-      setAssistNotificationDemo('Please fill in all Add Assistance Workout fields ')
+      setNotificationMessage('Please fill in both Sets and Reps fields before adding an Assistance Exercise')
       return
     }
     if (assistListDemo.includes(exercise)) {
-      setAssistNotificationDemo(`${exercise} already added`)
+      setNotificationMessage(`${assistFormat[exercise]} already added`)
       return
     }
     setAssistListDemo(assistListDemo.concat(exercise))
@@ -270,7 +281,7 @@ const Home = () => {
       newAssist[repsName] = ''
     }
     assistMap[exercise][1](newAssist)
-    setAssistNotificationDemo(`${exercise} ${sets}x${reps} added`)
+    setNotificationMessage(`${assistFormat[exercise]} ${sets}x${reps} added (Assistance Exercises located at the end of the Workout)`)
   }
 
   const handleAssistInput = ({target}, exercise, key) => {
@@ -288,7 +299,19 @@ const Home = () => {
 
     // Update specific assist state
     assistMap[assistName][1]({})
+    setConfirmPopup(null)
   }
+
+  // Confirm Popup Handle Clicks
+  const handleClick = e => {
+    if (node.current && node.current.contains(e.target)) {
+      // inside click
+      return;
+    }
+    // outside click 
+    setConfirmPopup(null)
+  };
+
 
   // Check if RMTM is complete before showing rest of workout
   useEffect(() => {
@@ -301,24 +324,46 @@ const Home = () => {
     setRMTMCompletedDemo(true)
   }, [RMTMDemo])
 
+  // Handle confirm popup mouse clicks
+  useEffect(() => {
+    // add when mounted
+    document.addEventListener("mousedown", handleClick);
+    // return function to be called when unmounted
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
 
   return (
     <div id='home'>
 
-      <div className='links-register'>
-        <Link to="/signup">Signup</Link>
+      {
+        confirmPopup !== null &&
+        <ConfirmPopup
+          node={node}
+          message={confirmPopup[0]}
+          setConfirmPopup={setConfirmPopup}
+          handleYes={(event) => handleAssistDelete(confirmPopup[1])}
+        />
+      }
+
+      <div className='main-summary'>
+        Workout Generator for the 5/3/1 Lifting Program
       </div>
 
-      <div className='workout-demo'>
+      <div className='links-register'>
+        <Link to="/signup">START NOW</Link>
+      </div>
 
-        <div className='demo-title'>
-          Demo Workout
+      <div id='workout-demo'>
+
+        <div className='title-wrapper'>
+          <div className='demo-title'>
+            TRY A DEMO WORKOUT BELOW
+          </div>
         </div>
-
-        <RMCalcBlock
-          RMCalc={RMCalcDemo}
-          handleRMCalc={handleRMCalc}
-        />
 
         <div className='demo-step'>
           Enter your 1 Rep Max for each of the following exercises:
@@ -329,15 +374,19 @@ const Home = () => {
           handleTMChange={handleTMChange}
         />
 
+        <div className='demo-step'>
+          You can use the following calculator to find your 1 Rep Max:
+        </div>
+        <RMCalcBlock
+          RMCalc={RMCalcDemo}
+          handleRMCalc={handleRMCalc}
+        />
+
         { RMTMCompletedDemo &&
           <div className='after-rmtm-complete'>
           
             <div className='demo-step'>
               Add assistance exercises and complete the workout!
-            </div>
-          
-            <div className='notification'>
-              {assistNotificationDemo}
             </div>
 
             <AssistAddBlock
@@ -381,9 +430,10 @@ const Home = () => {
                   <AssistExercise
                     key={assistName}
                     assistName={assistName}
+                    assistFormat={assistFormat}
                     assistWorkout={assistMap[assistName][0]}
                     handleWorkoutInput={handleAssistInput}
-                    handleAssistDelete={(event) => handleAssistDelete(assistName, assistMap[assistName][1])}
+                    setConfirmPopup={setConfirmPopup}
                   />
                 )
               })}

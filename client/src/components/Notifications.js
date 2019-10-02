@@ -1,29 +1,51 @@
 import React from 'react'
 
 const Notification = ({
-  message
+  node,
+  message,
+  setNotificationMessage,
+
 }) => {
   if (message === null) {
     return null
   }
 
   return (
-    <div className="notifications">
+    <div className='notifications-wrapper'>
 
-      {
-        typeof message === 'string' &&
-        <div className='notification'>
-          {message}
-        </div>
-      }
+      <div className='popup-background'></div>
 
-      { typeof message !== 'string' &&
-        message.map(error => (
-          <div key={message.indexOf(error)} className='notification'>
-            {error}
+      <section
+        className="notifications"
+        ref={node}
+      >
+
+        <div
+          className='notification-close-wrapper'>
+          <div
+            className='notification-close'
+            onClick={(event) => setNotificationMessage(null)}
+          >
+            X
           </div>
-        ))
-      }
+        </div>
+
+        {
+          typeof message === 'string' &&
+          <div className='notification'>
+            {message}
+          </div>
+        }
+
+        { typeof message !== 'string' &&
+          message.map(error => (
+            <div key={message.indexOf(error)} className='notification-list'>
+              &#8226; {error}
+            </div>
+          ))
+        }
+
+      </section>
 
     </div>
   )

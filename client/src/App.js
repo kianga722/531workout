@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {
   BrowserRouter as Router,
   Route, Redirect,
@@ -24,6 +24,7 @@ function App() {
 
   // Notification Messages
   const [notificationMessage, setNotificationMessage] = useState(null)
+  const node = useRef();
 
   // User
   const [user, setUser] = useState(null)
@@ -47,6 +48,16 @@ function App() {
   const [emailReset, setEmailReset] = useState(null)
   const [passwordReset, setPasswordReset] = useState('')
   const [password2Reset, setPassword2Reset] = useState('')
+
+  // Notifications Popup Handle Clicks
+  const handleClick = e => {
+    if (node.current && node.current.contains(e.target)) {
+      // inside click
+      return;
+    }
+    // outside click 
+    setNotificationMessage(null)
+  };
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -144,7 +155,7 @@ function App() {
 
   const jwtCheck = async () => {
     try {
-      console.log('Checking for valid jwt token...')
+      // console.log('Checking for valid jwt token...')
       const response = await axios.get('/api/login/jwtCheck')
       const userFound = response.data
 
@@ -160,7 +171,7 @@ function App() {
 
   const jwtVerifyCheck = async () => {
     try {
-      console.log('EMAIL VERIFY Checking for valid jwt token...')
+      // console.log('EMAIL VERIFY Checking for valid jwt token...')
       const response = await axios.get('/api/login/jwtCheck')
       const userFound = response.data
 
@@ -188,7 +199,7 @@ function App() {
 
   const jwtResetCheck = async () => {
     try {
-      console.log('FORGOT PASSWORD Checking for valid jwt token...')
+      // console.log('FORGOT PASSWORD Checking for valid jwt token...')
       const response = await axios.get('/api/login/jwtCheck')
       const userFound = response.data
 
@@ -222,9 +233,28 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // Handle popup mouse clicks
+  useEffect(() => {
+    // add when mounted
+    document.addEventListener("mousedown", handleClick);
+    // return function to be called when unmounted
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
 
   return (
     <div className="App">
+
+      <div id='background-gradient'>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
 
       <Router>
         
@@ -235,18 +265,28 @@ function App() {
 
         {
           !contentLoading &&
-          <div>
+          <section id='container'>
 
             <Nav 
               user={user}
               handleLogout={handleLogout}
             />
 
-            <Notifications message={notificationMessage} />
+            {
+              notificationMessage !== null &&
+              <Notifications
+                node={node}
+                message={notificationMessage}
+                setNotificationMessage={setNotificationMessage}
+              />
+            }
+            
 
             <Route exact path="/" render={() =>
               user === null ?
-                <Home /> : <Redirect to="/workouts" />
+                <Home
+                  setNotificationMessage={setNotificationMessage}
+                /> : <Redirect to="/workouts" />
             } />
 
             <Route path="/login" render={() => 
@@ -316,7 +356,7 @@ function App() {
                 /> : <Redirect to="/login" />
             } />
             
-          </div>
+          </section>
         }
         
       </Router>

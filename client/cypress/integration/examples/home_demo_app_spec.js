@@ -5,7 +5,7 @@ describe('Home Demo', function () {
 
   describe('not logged in user home demo page', function () { 
     it('front page can be opened', function() {
-      cy.contains('Demo Workout')
+      cy.contains('TRY A DEMO WORKOUT BELOW')
     })
 
     it('workout content does not appear without all exercise TM values entered', function() {
@@ -50,33 +50,38 @@ describe('Home Demo', function () {
     })
 
     it('receive error when trying to add assistance exercise with no input', function() {
-      cy.get('.add-assist-wrapper button').click()
-      cy.contains('Please fill in all Add Assistance Workout fields')
+      cy.get('.add-assist-wrapper .add-button').click()
+      cy.contains('Please fill in both Sets and Reps fields before adding an Assistance Exercise')
+      cy.get('.notification-close').click()
     })
 
     it('able to add an assistance workout', function() {
       cy.get('.assist-setCount input').type('10')
       cy.get('.assist-repCount input').type('5')
-      cy.get('.add-assist-wrapper button').click()
-      cy.contains('pushups 10x5 added')
+      cy.get('.add-assist-wrapper .add-button').click()
+      cy.contains('Pushups 10x5 added')
+      cy.get('.notification-close').click()
       cy.get('.assist-input-wrapper input').should('have.length', 10)
     })
 
     it('receive error when trying to add same assistance exercise', function() {
-      cy.get('.add-assist-wrapper button').click()
-      cy.contains('pushups already added')
+      cy.get('.add-assist-wrapper .add-button').click()
+      cy.contains('Pushups already added')
+      cy.get('.notification-close').click()
     })
 
     it('able to add a different assistance workout', function() {
       cy.get('.add-assist-wrapper select').select('chinups')
-      cy.get('.add-assist-wrapper button').click()
-      cy.contains('chinups 10x5 added')
+      cy.get('.add-assist-wrapper .add-button').click()
+      cy.contains('Chinups 10x5 added')
+      cy.get('.notification-close').click()
       cy.get('.assist-input-wrapper input').should('have.length', 20)
     })
 
     it('able to delete an assistance exercise', function() {
       cy.get('.assist-input-wrapper input').should('have.length', 20)
-      cy.get('button#chinups').click()
+      cy.get('#delete-chinups').click()
+      cy.get('.yes-no-wrapper .button-yes').click()
       cy.get('.assist-input-wrapper input').should('have.length', 10)
     })
 

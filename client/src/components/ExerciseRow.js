@@ -33,7 +33,7 @@ const inputReps5 = (
   handleSetsLast5,
 ) => {
   return (
-    <div>
+    <div className='exercise-last-set'>
       {inputReps(setsLast1, handleSetsLast1)}
       {inputReps(setsLast2, handleSetsLast2)}
       {inputReps(setsLast3, handleSetsLast3)}

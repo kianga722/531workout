@@ -17,12 +17,14 @@ const ForgotPassword = ({
   return (
     <div id='forgotPassword'>
   
-      <h2>Forgot Password</h2>
+      <h2>Reset your password</h2>
 
-      <form onSubmit={handleSubmit}>
+      <form>
 
-        <div>
-          Email
+        <div className='form-wrapper'>
+          <div className='form-title'>
+            Email
+          </div>
           <input
             id='emailForgot'
             type='email'
@@ -31,8 +33,16 @@ const ForgotPassword = ({
           />
         </div>
 
-        <button type="submit">Request Password Reset</button>
-
+        <div className='submit-wrapper'>
+          <input
+            className='submit-button'
+            type='submit'
+            onClick={handleSubmit}
+            value='Send reset password email'
+          >
+          </input>
+        </div>
+        
       </form>
 
     </div>

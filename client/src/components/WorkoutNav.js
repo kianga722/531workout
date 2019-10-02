@@ -17,41 +17,41 @@ const WorkoutNav = ({
       }
       {
         workoutCount !== 1 &&
-        <button
+        <div
           onClick={(event) => {
             setNotificationMessage(null)
             handlePrev()
           }}
         >
           Previous
-        </button>
+        </div>
       }
 
       {
         // Jumps to current workout
       }
-        <button
+        <div
         onClick={(event) => {
           setNotificationMessage(null)
           handleCurrent()
         }}
         >
           Current
-        </button>
+        </div>
 
       {
         // Only show if workout viewing has completed true state
       }
       {
         completed &&
-        <button
+        <div
           onClick={(event) => {
             setNotificationMessage(null)
             handleNext(user)
           }}
         >
           Next
-        </button>
+        </div>
       }
       
     </nav>

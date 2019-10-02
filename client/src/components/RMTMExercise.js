@@ -13,29 +13,37 @@ const RMTMExercise = ({
       id={idName}
       className='exercise-wrapper'
     >
-      <div className='exercise-title'>
-        {exercise}
+      
+      <div className='exercise-title-wrapper'>
+        <span className='bullet'></span>
+        <span className='exercise-title'>
+          {exercise}
+        </span>
       </div>
-      <div className='exercise-one-rm'>
-        <div>
-          1RM
+
+      <div className='one-rm-tm-wrapper'>
+        <div className='exercise-one-rm'>
+          <div className='input-title'>
+            1RM
+          </div>
+          <input
+            type='number'
+            value={exerciseRM}
+            onChange={handleRMChange}
+          />
         </div>
-        <input
-          type='number'
-          value={exerciseRM}
-          onChange={handleRMChange}
-        />
-      </div>
-      <div className='exercise-tm'>
-        <div>
-          TM
+        <div className='exercise-tm'>
+          <div className='input-title'>
+            TM
+          </div>
+          <input
+            type='number'
+            value={exerciseTM}
+            onChange={handleTMChange}
+          />
         </div>
-        <input
-          type='number'
-          value={exerciseTM}
-          onChange={handleTMChange}
-        />
       </div>
+  
     </div>
   )
 }

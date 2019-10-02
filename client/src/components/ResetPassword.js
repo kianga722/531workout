@@ -16,10 +16,12 @@ const ResetPassword = ({
   const resetForm = () => (
     <Route render={({ history }) => (
 
-      <form onSubmit={(e) => handleSubmit(e, history)}>
+      <form>
 
-        <div>
-          Password
+        <div className='form-wrapper'>
+          <div className='form-title'>
+            Password
+          </div>
           <input
             id='passwordForgot'
             type='password'
@@ -28,8 +30,10 @@ const ResetPassword = ({
           />
         </div>
 
-        <div>
-          Confirm Password
+        <div className='form-wrapper'>
+          <div className='form-title'>
+            Confirm Password
+          </div>
           <input
             id='password2Forgot'
             type='password'
@@ -38,7 +42,15 @@ const ResetPassword = ({
           />
         </div>
 
-        <button type="submit">Update Password</button>
+        <div className='submit-wrapper'>
+          <input
+            className='submit-button'
+            type='submit'
+            onClick={(e) => handleSubmit(e, history)}
+            value='Update Password'
+          >
+          </input>
+        </div>
 
       </form>
 

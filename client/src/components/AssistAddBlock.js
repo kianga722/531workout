@@ -8,7 +8,7 @@ const AssistAddBlock = ({
   return (
     <div className='add-assist-wrapper'>
 
-      <div>
+      <div className='add-assist-title'>
         Add Assistance Workout
       </div>
 
@@ -22,33 +22,36 @@ const AssistAddBlock = ({
         <option value='legraises'>Leg Raises</option>
       </select>
 
-      <div className='assist-setCount'>
-        <div>
-          Sets
+      <div className='assist-set-rep-wrapper'>
+        <div className='assist-setCount'>
+          <div className='input-title'>
+            Sets
+          </div>
+          <input
+            type='number'
+            value={assistAdd.sets}
+            onChange={(event) => handleAssistAddInput(event, 'sets')}
+          />
         </div>
-        <input
-          type='number'
-          value={assistAdd.sets}
-          onChange={(event) => handleAssistAddInput(event, 'sets')}
-        />
-      </div>
 
-      <div className='assist-repCount'>
-        <div>
-          Reps per Set
+        <div className='assist-repCount'>
+          <div className='input-title'>
+            Reps per Set
+          </div>
+          <input
+            type='number'
+            value={assistAdd.reps}
+            onChange={(event) => handleAssistAddInput(event, 'reps')}
+          />
         </div>
-        <input
-          type='number'
-          value={assistAdd.reps}
-          onChange={(event) => handleAssistAddInput(event, 'reps')}
-        />
-      </div>
 
-      <button
-        onClick={(event) => handleNewAssist()}
-      >
-        Add Assistance Workout
-      </button>
+        <div
+          className='add-button'
+          onClick={(event) => handleNewAssist()}
+        >
+          ADD
+        </div>
+      </div>
 
     </div>
   )
