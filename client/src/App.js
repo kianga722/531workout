@@ -268,51 +268,54 @@ function App() {
           && (
           <section id="container">
 
-  <Nav
+            <Nav
               user={user}
               handleLogout={handleLogout}
             />
 
-  {
+            {
               notificationMessage !== null
               && (
-<Notifications
+              <Notifications
                 node={node}
                 message={notificationMessage}
                 setNotificationMessage={setNotificationMessage}
               />
-)
+              )
             }
 
 
-  <Route
+            <Route
               exact
               path="/"
-              render={() => (user === null ?
-                <Home
+              render={() => (user === null
+      ? (
+<Home
                   setNotificationMessage={setNotificationMessage}
-                /> : <Redirect to="/workouts" />)}
+                />
+) : <Redirect to="/workouts" />)}
             />
 
-  <Route
+            <Route
               path="/login"
-              render={() =>
-  (user === null ? 
-                <LoginForm
+              render={() => (user === null
+      ? (
+<LoginForm
                   setNotificationMessage={setNotificationMessage}
                   email={email}
                   password={password}
                   handleEmailChange={({ target }) => setEmail(target.value)}
                   handlePasswordChange={({ target }) => setPassword(target.value)}
                   handleSubmit={handleLogin}
-                /> : <Redirect to="/" />)}
+                />
+) : <Redirect to="/" />)}
             />
 
-  <Route
+            <Route
               path="/signup"
-              render={() =>
-  (user === null ? 
-                <SignupForm
+              render={() => (user === null
+      ? (
+<SignupForm
                   setNotificationMessage={setNotificationMessage}
                   email={emailSignup}
                   password={passwordSignup}
@@ -321,40 +324,45 @@ function App() {
                   handlePasswordChange={({ target }) => setPasswordSignup(target.value)}
                   handlePassword2Change={({ target }) => setPassword2Signup(target.value)}
                   handleSubmit={handleSignup}
-                /> : <Redirect to="/" />)}
+                />
+) : <Redirect to="/" />)}
             />
 
-  <Route
+            <Route
               path="/verify/:id"
               render={() => <Redirect to="/resend" />}
             />
 
-  <Route
+            <Route
               path="/resend"
-              render={() =>
-  (user === null ? 
-                <ResendEmail
+              render={() => (user === null
+      ? (
+<ResendEmail
                   setNotificationMessage={setNotificationMessage}
                   email={emailResend}
                   handleEmailChange={({ target }) => setEmailResend(target.value)}
                   handleSubmit={handleResend}
-                /> : <Redirect to="/" />)}
+                />
+) : <Redirect to="/" />)}
             />
 
-  <Route
+            <Route
               path="/forgot"
-              render={() => (user === null ? 
-                <ForgotPassword
+              render={() => (user === null
+      ? (
+<ForgotPassword
                   setNotificationMessage={setNotificationMessage}
                   email={emailForgot}
                   handleEmailChange={({ target }) => setEmailForgot(target.value)}
                   handleSubmit={handleForgot}
-                /> : <Redirect to="/" />)}
+                />
+) : <Redirect to="/" />)}
             />
-  <Route
+            <Route
               path="/reset/:id"
-              render={() => (user === null && emailReset !== null ? 
-                <ResetPassword
+              render={() => (user === null && emailReset !== null
+      ? (
+<ResetPassword
                   setNotificationMessage={setNotificationMessage}
                   emailReset={emailReset}
                   password={passwordReset}
@@ -362,20 +370,22 @@ function App() {
                   handlePasswordChange={({ target }) => setPasswordReset(target.value)}
                   handlePassword2Change={({ target }) => setPassword2Reset(target.value)}
                   handleSubmit={handleReset}
-                /> : <Redirect to="/" />)}
+                />
+) : <Redirect to="/" />)}
             />
 
-  <Route
+            <Route
               path="/workouts"
-              render={() =>
-  (user ? 
-                <WorkoutHome
+              render={() => (user
+      ? (
+<WorkoutHome
                   setNotificationMessage={setNotificationMessage}
                   user={user}
-                /> : <Redirect to="/login" />)}
+                />
+) : <Redirect to="/login" />)}
             />
 
-</section>
+          </section>
           )
         }
 

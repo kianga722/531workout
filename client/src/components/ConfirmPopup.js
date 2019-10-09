@@ -25,18 +25,18 @@ const ConfirmPopup = ({
         </div>
 
         <div className="yes-no-wrapper">
-          <div
+          <button
             className="button-yes"
             onClick={handleYes}
           >
             Yes
-          </div>
-          <div
+          </button>
+          <button
             className="button-no"
             onClick={(event) => setConfirmPopup(null)}
           >
             No
-          </div>
+          </button>
         </div>
 
       </section>
