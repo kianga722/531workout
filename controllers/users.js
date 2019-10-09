@@ -33,14 +33,14 @@ usersRouter.post('/', async (req, res, next) => {
     }
 
     if (errors.length > 0) {
-      res.status(400).send(errors);
+      res.status(400).send({ err: errors });
     } else {
       // Validation passed
       const user = await User.findOne({ email });
       if (user) {
         // User exists
         errors.push('Email is already registered');
-        res.status(400).send(errors);
+        res.status(400).send({ err: errors });
       } else {
         // Hash Password
         const saltRounds = 10;
@@ -79,7 +79,7 @@ usersRouter.post('/', async (req, res, next) => {
         // Send the email
         mailer.sendEmail('admin@531.workout', newUser.email, 'Please verify your email!', html);
 
-        res.status(200).send('An activation e-mail has been sent to you. You must activate before you can log in');
+        res.status(200).send({ info: ['An activation e-mail has been sent to you. You must activate before you can log in'] });
       }
     }
   } catch (exception) {
@@ -95,7 +95,7 @@ usersRouter.get('/verify/:token', async (req, res, next) => {
       if (!user) {
         const tokenEmail = req.params.token;
         if (tokenEmail === '' || tokenEmail === undefined) {
-          return res.status(400).send('Activation link is invalid or has expired');
+          return res.status(400).send({ err: ['Activation link is invalid or has expired'] });
         }
 
         // Find the account that matches the secret token
@@ -104,7 +104,7 @@ usersRouter.get('/verify/:token', async (req, res, next) => {
           tokenEmailExpires: { $gt: Date.now() },
         });
         if (!userFound) {
-          return res.status(400).send('Activation link is invalid or has expired');
+          return res.status(400).send({ err: ['Activation link is invalid or has expired'] });
         }
         userFound.active = true;
         userFound.tokenEmail = undefined;
@@ -113,7 +113,7 @@ usersRouter.get('/verify/:token', async (req, res, next) => {
 
         req.login(userSave, { session: false }, (err) => {
           if (err) {
-            res.send(err);
+            res.send({ err: [err] });
           }
 
           const payload = {
@@ -129,7 +129,7 @@ usersRouter.get('/verify/:token', async (req, res, next) => {
           return res.status(200).send(payload);
         });
       } else {
-        res.status(400).send('Activation link is invalid or has expired');
+        res.status(400).send({ err: ['Activation link is invalid or has expired'] });
       }
     })(req, res, next);
 });
@@ -142,11 +142,11 @@ usersRouter.post('/resend', async (req, res, next) => {
     const userFound = await User.findOne({ email });
     // If no user found
     if (!userFound) {
-      return res.status(400).send('Email is invalid');
+      return res.status(400).send({ err: ['Email is invalid'] });
     }
     // If user already active
     if (userFound.active) {
-      return res.status(400).send('User is already active!');
+      return res.status(400).send({ err: ['User is already active!'] });
     }
 
     // Set activation token and expiration
@@ -174,7 +174,7 @@ usersRouter.post('/resend', async (req, res, next) => {
     // Send the email with new token
     mailer.sendEmail('admin@531.workout', userFound.email, 'Activation email resend request', html);
 
-    res.status(200).send(`Another activation e-mail has been sent to ${userFound.email}`);
+    res.status(200).send({ info: [`Another activation e-mail has been sent to ${userFound.email}`] });
   } catch (exception) {
     next(exception);
   }
@@ -188,7 +188,7 @@ usersRouter.post('/forgot', async (req, res, next) => {
     const userFound = await User.findOne({ email });
     // If no user found
     if (!userFound) {
-      return res.status(400).send('Email is invalid');
+      return res.status(400).send({ err: ['Email is invalid'] });
     }
 
     // Set new secret token
@@ -216,7 +216,7 @@ usersRouter.post('/forgot', async (req, res, next) => {
     // Send the email with new token
     mailer.sendEmail('admin@531.workout', userFound.email, 'Password Reset Request', html);
 
-    res.status(200).send(`A password reset e-mail has been sent to ${userFound.email}`);
+    res.status(200).send({ info: [`A password reset e-mail has been sent to ${userFound.email}`] });
   } catch (exception) {
     next(exception);
   }
@@ -230,7 +230,7 @@ usersRouter.get('/reset/:token', async (req, res, next) => {
       if (!user) {
         const tokenForgot = req.params.token;
         if (tokenForgot === '' || tokenForgot === undefined) {
-          return res.status(400).send('Reset link is invalid or has expired');
+          return res.status(400).send({ err: ['Reset link is invalid or has expired'] });
         }
 
         // Find the account that matches the reset token
@@ -239,12 +239,12 @@ usersRouter.get('/reset/:token', async (req, res, next) => {
           tokenForgotExpires: { $gt: Date.now() },
         });
         if (!userFound) {
-          return res.status(400).send('Reset link is invalid or has expired');
+          return res.status(400).send({ err: ['Reset link is invalid or has expired'] });
         }
 
         return res.status(200).send(userFound.email);
       }
-      res.status(400).send('Reset link is invalid or has expired');
+      res.status(400).send({ err: ['Reset link is invalid or has expired'] });
     })(req, res, next);
 });
 
@@ -256,7 +256,7 @@ usersRouter.post('/reset/:token', async (req, res, next) => {
       if (!user) {
         const tokenForgot = req.params.token;
         if (tokenForgot === '' || tokenForgot === undefined) {
-          return res.status(400).send('Reset link is invalid or has expired');
+          return res.status(400).send({ err: ['Reset link is invalid or has expired'] });
         }
 
         try {
@@ -266,7 +266,7 @@ usersRouter.post('/reset/:token', async (req, res, next) => {
             tokenForgotExpires: { $gt: Date.now() },
           });
           if (!userFound) {
-            return res.status(400).send('Reset link is invalid or has expired');
+            return res.status(400).send({ err: ['Reset link is invalid or has expired'] });
           }
 
           const {
@@ -292,7 +292,7 @@ usersRouter.post('/reset/:token', async (req, res, next) => {
           }
 
           if (errors.length > 0) {
-            res.status(400).send(errors);
+            res.status(400).send({ err: errors });
           } else {
             // Hash Password
             const saltRounds = 10;
@@ -317,7 +317,7 @@ usersRouter.post('/reset/:token', async (req, res, next) => {
             // Send the email
             mailer.sendEmail('admin@531.workout', userFound.email, 'Your password has been changed', html);
 
-            res.status(200).send('Success! Your password has been changed');
+            res.status(200).send({ info: ['Success! Your password has been changed'] });
           }
         } catch (exception) {
           next(exception);

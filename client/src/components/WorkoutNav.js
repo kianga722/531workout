@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const WorkoutNav = ({
   setNotificationMessage,
@@ -7,56 +7,54 @@ const WorkoutNav = ({
   handlePrev,
   handleCurrent,
   handleNext,
-  user
-}) => {
-  return (
-    <nav id='nav-workout'>
+  user,
+}) => (
+  <nav id="nav-workout">
 
       {
         // Show previous button only if not first workout
       }
       {
-        workoutCount !== 1 &&
-        <div
+        workoutCount !== 1
+        && <button
           onClick={(event) => {
-            setNotificationMessage(null)
-            handlePrev()
+            setNotificationMessage(null);
+            handlePrev();
           }}
         >
           Previous
-        </div>
+        </button>
       }
 
       {
         // Jumps to current workout
       }
-        <div
-        onClick={(event) => {
-          setNotificationMessage(null)
-          handleCurrent()
+      <button
+          onClick={(event) => {
+          setNotificationMessage(null);
+          handleCurrent();
         }}
         >
           Current
-        </div>
+        </button>
 
       {
         // Only show if workout viewing has completed true state
       }
       {
-        completed &&
-        <div
+        completed
+        && <button
           onClick={(event) => {
-            setNotificationMessage(null)
-            handleNext(user)
+            setNotificationMessage(null);
+            handleNext(user);
           }}
         >
           Next
-        </div>
+        </button>
       }
-      
+
     </nav>
-  )
-}
+);
 
 
-export default WorkoutNav
+export default WorkoutNav;

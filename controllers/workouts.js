@@ -66,7 +66,7 @@ workoutsRouter.post('/', async (req, res, next) => {
   for (let i = 0; i < Object.keys(RMTM).length; i += 1) {
     const key = Object.keys(RMTM)[i];
     if (!RMTM[key]) {
-      return res.status(400).send('Must fill out all 1RM and TM exercise weight values!');
+      return res.status(400).send({ err: ['Must fill out all 1RM and TM exercise weight values!'] });
     }
   }
 

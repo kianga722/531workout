@@ -11,11 +11,11 @@ loginRouter.post('/', async (req, res, next) => {
     if (err || !user) {
       const message = info ? info.message : 'Login failed';
 
-      return res.status(400).send(message);
+      return res.status(400).send({ err: [message] });
     }
     req.login(user, { session: false }, (err) => {
       if (err) {
-        res.send(err);
+        res.send({ err: [err] });
       }
 
       const payload = {
@@ -45,7 +45,7 @@ loginRouter.get('/jwtCheck', async (req, res, next) => {
       if (user) {
         req.login(user, { session: false }, (err) => {
           if (err) {
-            res.send(err);
+            res.send({ err: [err] });
           }
 
           payload = {

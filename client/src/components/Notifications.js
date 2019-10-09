@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const Notification = ({
   node,
@@ -7,48 +7,62 @@ const Notification = ({
 
 }) => {
   if (message === null) {
-    return null
+    return null;
   }
 
-  return (
-    <div className='notifications-wrapper'>
+  const type = Object.keys(message)[0] === 'err' ? 'err' : 'info';
+  const msgArr = message[type];
+  const length = msgArr.length > 1 ? 'multi' : null;
 
-      <div className='popup-background'></div>
+  return (
+    <div className="notifications-wrapper">
+
+      <div className="popup-background" />
 
       <section
-        className="notifications"
+        className={`notifications ${type}`}
         ref={node}
       >
 
         <div
-          className='notification-close-wrapper'>
+          className="notification-close-wrapper"
+        >
           <div
-            className='notification-close'
+            className="notification-close"
             onClick={(event) => setNotificationMessage(null)}
           >
-            X
+            &times;
           </div>
         </div>
 
-        {
-          typeof message === 'string' &&
-          <div className='notification'>
-            {message}
-          </div>
-        }
-
-        { typeof message !== 'string' &&
-          message.map(error => (
-            <div key={message.indexOf(error)} className='notification-list'>
-              &#8226; {error}
+        <div
+          className={`notification-list ${type} ${length}`}
+        >
+          {
+          msgArr.map((msg) => (
+            <div
+              key={msgArr.indexOf(msg)}
+            >
+              {
+                type === 'err' && msgArr.length > 1
+                && (
+                <span>
+                  &#8226;
+                </span>
+                )
+              }
+              {' '}
+              {msg}
             </div>
           ))
         }
+        </div>
+
 
       </section>
 
     </div>
-  )
-}
+  );
+};
 
-export default Notification
+export default Notification;

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const WorkoutHeading = ({
   workoutCount,
@@ -9,8 +9,7 @@ const WorkoutHeading = ({
   navState,
   handleReCalc,
   user,
-}) => {
-  return (
+}) => (
     <section id='heading-workout'>
 
       <div className='workout-count'>
@@ -62,18 +61,17 @@ const WorkoutHeading = ({
       {
         navState === 'current' &&
         <div className='recalc-wrapper'>
-          <div
+          <button
             className='recalc-button'
             onClick={(event) => handleReCalc(user)}
           >
             Recalculate 1RM and TM
-          </div>
+          </button>
         </div>
       }
     
     </section>
-  )
-}
+  );
 
 
-export default WorkoutHeading
+export default WorkoutHeading;

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const ConfirmPopup = ({
   node,
@@ -7,32 +7,32 @@ const ConfirmPopup = ({
   handleYes,
 }) => {
   if (message === null) {
-    return null
+    return null;
   }
 
   return (
-    <div className='notifications-wrapper'>
+    <div className="confirmation-wrapper">
 
-      <div className='popup-background'></div>
+      <div className="popup-background" />
 
       <section
         className="notifications"
         ref={node}
       >
 
-        <div className='notification'>
+        <div className="notification">
           {message}
         </div>
 
-        <div className='yes-no-wrapper'>
+        <div className="yes-no-wrapper">
           <div
-            className='button-yes'
+            className="button-yes"
             onClick={handleYes}
           >
             Yes
           </div>
           <div
-            className='button-no'
+            className="button-no"
             onClick={(event) => setConfirmPopup(null)}
           >
             No
@@ -42,7 +42,7 @@ const ConfirmPopup = ({
       </section>
 
     </div>
-  )
-}
+  );
+};
 
-export default ConfirmPopup
+export default ConfirmPopup;

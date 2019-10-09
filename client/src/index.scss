@@ -49,6 +49,11 @@ table {
 	border-spacing: 0;
 }
 
+// Button Styling Reset
+button {
+  all: unset;
+}
+
 // Link Styling
 a {
   color: unset;
@@ -395,7 +400,8 @@ body {
 } 
 
 // Notifications Popup
-.notifications-wrapper {
+.notifications-wrapper,
+.confirmation-wrapper {
   .popup-background {
     position: fixed;
     top: 0;
@@ -418,8 +424,11 @@ body {
     
       font-size: 18px;
       line-height: 20px;
-      color: #cb1a1a;
+      
+      color: #318eff;
       background-color: #fcfdfd;
+      border: 2px solid #318eff;
+      border-left-width: 6px;
       border-radius: 6px;
       z-index: 2;
     
@@ -430,8 +439,11 @@ body {
       display: inline-block;
       cursor: pointer;
 
+      color: #339ead;
+      font-size: 30px;
+
       &:hover {
-        color: #cb1a1a;
+        color: #1800f3;
       }
     }
 
@@ -442,8 +454,14 @@ body {
     }
 
     .notification-list {
-      text-align: left;
+      margin: 0 2rem;
+      
+      text-align: center;
       word-wrap: break-word;
+
+      &.multi {
+        text-align: left;
+      }
     }
 
     .yes-no-wrapper {
@@ -481,8 +499,38 @@ body {
         color: #cb1a1a;
       }
     }
+
+
+    &.err {
+      border-color: #cb1a1a;
+
+      .notification-close {
+        color: #fba12e;
+  
+        &:hover {
+          color: #cb1a1a;
+        }
+      }
+
+      .notification-list {
+        color: #cb1a1a;
+      }
+
+
+    }
+
+
   }
 
+}
+
+.confirmation-wrapper {  
+  .notifications {
+      padding: 2rem 1rem;
+      
+      color: #cb1a1a;
+      border-color: #cb1a1a;
+  }
 }
 
 
@@ -553,17 +601,18 @@ body {
     display: flex;
     justify-content: space-evenly;
 
-    div {
-      display: inline-block;
-      padding: 10px;
-  
-      font-size: 16px;
-      font-weight: 700;
+    button {
+      padding: 8px 13px;
+
       color: #464c4f;
-      background-image: linear-gradient(-180deg,#fff 0,#efefef);
-      border-radius: 3px;
-      border: 1px solid #d7dbdb;
-      box-shadow: inset 0 -1px 0 0 #d7dbdb;
+      background-color: #11f0f0;
+
+      font-size: 14px;
+      font-weight: 700;
+      text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8);
+      text-transform: uppercase;
+      border: 3px solid #fbfbfb;
+      border-radius: 2rem;
       cursor: pointer;
 
       &:hover {
@@ -571,6 +620,7 @@ body {
         box-shadow: 0 7px 14px rgba(50,50,93,.1), 0 3px 6px rgba(0,0,0,.08);
       }
     }
+    
   }
 
   #heading-workout {
@@ -580,24 +630,29 @@ body {
 
     .recalc-wrapper {
       text-align: left;
+
       .recalc-button {
         margin-top: 20px;
         display: inline-block;
-        padding: 10px;
-    
-        font-size: 16px;
-        font-weight: 700;
-        color: #464c4f;
-        background-image: linear-gradient(-180deg,#fff 0,#efefef);
-        border-radius: 3px;
-        border: 1px solid #d7dbdb;
-        box-shadow: inset 0 -1px 0 0 #d7dbdb;
-        cursor: pointer;
+        padding: 8px 13px;
 
+        color: #464c4f;
+        background-color: #11f0f0;
+  
+        font-size: 14px;
+        font-weight: 700;
+        text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8);
+        text-transform: uppercase;
+        border: 3px solid #fbfbfb;
+        border-radius: 2rem;
+        cursor: pointer;
+  
         &:hover {
           transform: translateY(-1px);
           box-shadow: 0 7px 14px rgba(50,50,93,.1), 0 3px 6px rgba(0,0,0,.08);
         }
+
+
       }
     }
   }
@@ -782,7 +837,7 @@ body {
 
   #workout-session-demo,
   #workout-session {
-    margin: 5rem 0 3rem;
+    margin: 5rem 0;
 
     input {
       width: 30px;
@@ -896,12 +951,15 @@ body {
   #finish-options {
     .done-button {
       display: inline-block;
-        padding: 10px;
+        padding: 20px;
     
         font-size: 18px;
         font-weight: 700;
-        color: #464c4f;
-        background-image: linear-gradient(-180deg,#fff 0,#3ecf8e);
+        color: white;
+        //background: #318eff;
+        background-image: linear-gradient(-180deg, #318eff 0, #1233b6);
+        //color: #1950e6;
+        //background-image: linear-gradient(-180deg, #00e580 0, #10bc28);
         border-radius: 3px;
         border: 1px solid #d7dbdb;
         box-shadow: inset 0 -1px 0 0 #d7dbdb;
