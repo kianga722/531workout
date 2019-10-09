@@ -5,7 +5,11 @@ import {
 } from 'react-router-dom';
 
 import axios from 'axios';
+
+
 import Loading from './components/Loading';
+import GradientMain from './components/GradientMain';
+import SchemeButton from './components/SchemeButton';
 import Nav from './components/Nav';
 import Notifications from './components/Notifications';
 import Home from './components/Home';
@@ -18,6 +22,9 @@ import WorkoutHome from './components/WorkoutHome';
 
 
 function App() {
+  // Color Scheme
+  const [scheme, setScheme] = useState(null);
+
   // Loading
   const [contentLoading, setContentLoading] = useState(true);
 
@@ -246,15 +253,9 @@ function App() {
 
 
   return (
-    <div className="App">
+    <div className={`App ${scheme === 'redScheme' ? 'redScheme' : ''}`}>
 
-      <div id="background-gradient">
-        <span />
-        <span />
-        <span />
-        <span />
-        <span />
-      </div>
+      <GradientMain />
 
       <Router>
 
@@ -273,6 +274,11 @@ function App() {
               handleLogout={handleLogout}
             />
 
+            <SchemeButton
+              scheme={scheme}
+              setScheme={setScheme}
+            />
+
             {
               notificationMessage !== null
               && (
@@ -289,43 +295,43 @@ function App() {
               exact
               path="/"
               render={() => (user === null
-      ? (
-<Home
-                  setNotificationMessage={setNotificationMessage}
-                />
-) : <Redirect to="/workouts" />)}
+                ? (
+                  <Home
+                    setNotificationMessage={setNotificationMessage}
+                  />
+                ) : <Redirect to="/workouts" />)}
             />
 
             <Route
               path="/login"
               render={() => (user === null
-      ? (
-<LoginForm
-                  setNotificationMessage={setNotificationMessage}
-                  email={email}
-                  password={password}
-                  handleEmailChange={({ target }) => setEmail(target.value)}
-                  handlePasswordChange={({ target }) => setPassword(target.value)}
-                  handleSubmit={handleLogin}
-                />
-) : <Redirect to="/" />)}
+                ? (
+                  <LoginForm
+                    setNotificationMessage={setNotificationMessage}
+                    email={email}
+                    password={password}
+                    handleEmailChange={({ target }) => setEmail(target.value)}
+                    handlePasswordChange={({ target }) => setPassword(target.value)}
+                    handleSubmit={handleLogin}
+                  />
+                ) : <Redirect to="/" />)}
             />
 
             <Route
               path="/signup"
               render={() => (user === null
-      ? (
-<SignupForm
-                  setNotificationMessage={setNotificationMessage}
-                  email={emailSignup}
-                  password={passwordSignup}
-                  password2={password2Signup}
-                  handleEmailChange={({ target }) => setEmailSignup(target.value)}
-                  handlePasswordChange={({ target }) => setPasswordSignup(target.value)}
-                  handlePassword2Change={({ target }) => setPassword2Signup(target.value)}
-                  handleSubmit={handleSignup}
-                />
-) : <Redirect to="/" />)}
+                ? (
+                  <SignupForm
+                    setNotificationMessage={setNotificationMessage}
+                    email={emailSignup}
+                    password={passwordSignup}
+                    password2={password2Signup}
+                    handleEmailChange={({ target }) => setEmailSignup(target.value)}
+                    handlePasswordChange={({ target }) => setPasswordSignup(target.value)}
+                    handlePassword2Change={({ target }) => setPassword2Signup(target.value)}
+                    handleSubmit={handleSignup}
+                  />
+                ) : <Redirect to="/" />)}
             />
 
             <Route
@@ -336,53 +342,53 @@ function App() {
             <Route
               path="/resend"
               render={() => (user === null
-      ? (
-<ResendEmail
-                  setNotificationMessage={setNotificationMessage}
-                  email={emailResend}
-                  handleEmailChange={({ target }) => setEmailResend(target.value)}
-                  handleSubmit={handleResend}
-                />
-) : <Redirect to="/" />)}
+                ? (
+                  <ResendEmail
+                    setNotificationMessage={setNotificationMessage}
+                    email={emailResend}
+                    handleEmailChange={({ target }) => setEmailResend(target.value)}
+                    handleSubmit={handleResend}
+                  />
+                ) : <Redirect to="/" />)}
             />
 
             <Route
               path="/forgot"
               render={() => (user === null
-      ? (
-<ForgotPassword
-                  setNotificationMessage={setNotificationMessage}
-                  email={emailForgot}
-                  handleEmailChange={({ target }) => setEmailForgot(target.value)}
-                  handleSubmit={handleForgot}
-                />
-) : <Redirect to="/" />)}
+                ? (
+                  <ForgotPassword
+                    setNotificationMessage={setNotificationMessage}
+                    email={emailForgot}
+                    handleEmailChange={({ target }) => setEmailForgot(target.value)}
+                    handleSubmit={handleForgot}
+                  />
+                ) : <Redirect to="/" />)}
             />
             <Route
               path="/reset/:id"
               render={() => (user === null && emailReset !== null
-      ? (
-<ResetPassword
-                  setNotificationMessage={setNotificationMessage}
-                  emailReset={emailReset}
-                  password={passwordReset}
-                  password2={password2Reset}
-                  handlePasswordChange={({ target }) => setPasswordReset(target.value)}
-                  handlePassword2Change={({ target }) => setPassword2Reset(target.value)}
-                  handleSubmit={handleReset}
-                />
-) : <Redirect to="/" />)}
+                ? (
+                  <ResetPassword
+                    setNotificationMessage={setNotificationMessage}
+                    emailReset={emailReset}
+                    password={passwordReset}
+                    password2={password2Reset}
+                    handlePasswordChange={({ target }) => setPasswordReset(target.value)}
+                    handlePassword2Change={({ target }) => setPassword2Reset(target.value)}
+                    handleSubmit={handleReset}
+                  />
+                ) : <Redirect to="/" />)}
             />
 
             <Route
               path="/workouts"
               render={() => (user
-      ? (
-<WorkoutHome
-                  setNotificationMessage={setNotificationMessage}
-                  user={user}
-                />
-) : <Redirect to="/login" />)}
+                ? (
+                  <WorkoutHome
+                    setNotificationMessage={setNotificationMessage}
+                    user={user}
+                  />
+                ) : <Redirect to="/login" />)}
             />
 
           </section>
