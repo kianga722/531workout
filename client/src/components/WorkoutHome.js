@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
+
 import axios from 'axios';
 import LoadingWorkout from './LoadingWorkout'
 import ConfirmPopup from './ConfirmPopup'
@@ -19,6 +21,8 @@ const WorkoutHome = ({
 }) => {
   const [workoutLoading, setWorkoutLoading] = useState(true);
   const [navState, setNavState] = useState('');
+
+  const [workoutTransition, setWorkoutTransition] = useState(null);
 
   const [workoutLatest, setWorkoutLatest] = useState(1);
   const [workoutCount, setWorkoutCount] = useState(1);
@@ -373,7 +377,18 @@ reps;
   };
 
   const setFoundWorkout = (workout) => {
+
+    // Transitions between workouts
+    if (workout.workoutCount > workoutCount) {
+      setWorkoutTransition('moveLeft');
+    } else if (workout.workoutCount === workoutCount) {
+      setWorkoutTransition(null);
+    } else {
+      setWorkoutTransition('moveRight');
+    }
+
     setWorkoutCount(workout.workoutCount);
+
     setCycle(workout.cycle);
     setWeek(workout.week);
     setSection(workout.section);
@@ -541,6 +556,15 @@ reps;
   };
 
   const setNewWorkout = async (workoutCurrent, workoutCountNext, cycleNext, weekNext, sectionNext, TMTestingNext, user) => {
+    // Transitions between workouts
+    if (workoutCountNext > workoutCount) {
+      setWorkoutTransition('moveLeft');
+    } else if (workoutCountNext === workoutCount) {
+      setWorkoutTransition(null);
+    } else {
+      setWorkoutTransition('moveRight');
+    }
+
     // Set state to default values for newest workout
     setWorkoutCount(workoutCountNext);
     setCycle(cycleNext);
@@ -726,7 +750,7 @@ reps;
       await setNewWorkout(workoutCurrent, workoutCountNext, cycleNext, weekNext, sectionNext, TMTestingNext, userCurrent);
 
       // Set state to current after setting new workout input values so the previous workout inputs are not saved to localstorage
-      setNavState('current');
+      setNavState('current');     
       setWorkoutLoading(false);
       // setNotificationMessage(null)
     } catch (err) {
@@ -801,7 +825,6 @@ reps;
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-
   return (
     <div id="home-logged-in">
 
@@ -844,8 +867,16 @@ reps;
         handleCurrent={handleCurrent}
         handleNext={handleNext}
         user={user}
-      />
+        />
 
+    <TransitionGroup>
+      <CSSTransition
+        key={workoutCount}
+        timeout={{ enter: 300 }}
+        classNames={workoutTransition}
+      >
+      <div>
+              
         <WorkoutHeading
         workoutCount={workoutCount}
         cycle={cycle}
@@ -855,7 +886,9 @@ reps;
         navState={navState}
         handleReCalc={handleReCalc}
         user={user}
-      />
+              />
+
+
 
         <RMTMList
         RMTM={RMTM}
@@ -938,7 +971,10 @@ reps;
           </section>
 
         </div>}
-
+                
+      </div>
+    </CSSTransition>
+  </TransitionGroup>
 
       </div>
       }

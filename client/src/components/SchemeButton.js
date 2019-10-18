@@ -8,10 +8,10 @@ const SchemeButton = ({
     <button
       id="schemeChange"
       onClick={(event) => {
-        if (scheme === null) {
-          return setScheme('redScheme');
+        if (scheme === '' || scheme === 'fade-in-blue') {
+          return setScheme('redScheme fade-in-red');
         }
-        return setScheme(null);
+        return setScheme('fade-in-blue');
       }}
      />
   </div>

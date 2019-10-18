@@ -23,7 +23,7 @@ import WorkoutHome from './components/WorkoutHome';
 
 function App() {
   // Color Scheme
-  const [scheme, setScheme] = useState(null);
+  const [scheme, setScheme] = useState('');
 
   // Loading
   const [contentLoading, setContentLoading] = useState(true);
@@ -69,17 +69,16 @@ function App() {
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
-      setContentLoading(true);
       const response = await axios.post('/api/login', { email, password });
       const user = response.data;
-
+      setContentLoading(true);
       await localStorage.clear();
       setUser(user);
+      setContentLoading(false);
     } catch (err) {
       setNotificationMessage(err.response.data);
       setPassword('');
     }
-    setContentLoading(false);
   };
 
   const handleLogout = async (event) => {
@@ -253,7 +252,7 @@ function App() {
 
 
   return (
-    <div className={`App ${scheme === 'redScheme' ? 'redScheme' : ''}`}>
+    <div className={`App ${scheme}`}>
 
       <GradientMain />
 
