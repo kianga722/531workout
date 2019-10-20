@@ -66,6 +66,20 @@ function App() {
     setNotificationMessage(null);
   };
 
+  // Handle Parallax Hovers
+  const nodeGradient = useRef();
+  const handleMouseMove = (e) => {
+    if (nodeGradient.current) {
+      // Get dimensions of slide element
+      const r = nodeGradient.current.getBoundingClientRect()
+
+      // Set x and y values prop values based on center of slide element
+      nodeGradient.current.style.setProperty('--x', e.clientX - (r.left + Math.floor(r.width / 2)))
+      nodeGradient.current.style.setProperty('--y', e.clientY - (r.top + Math.floor(r.height / 2)))
+    }
+  };
+
+
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
@@ -252,9 +266,14 @@ function App() {
 
 
   return (
-    <div className={`App ${scheme}`}>
+    <div
+      className={`App ${scheme}`}
+      onMouseMove={handleMouseMove}
+    >
 
-      <GradientMain />
+      <GradientMain
+        nodeGradient={nodeGradient}
+      />
 
       <Router>
 
@@ -266,7 +285,9 @@ function App() {
         {
           !contentLoading
           && (
-          <section id="container">
+            <section
+              id="container"
+            >
 
             <Nav
               user={user}
