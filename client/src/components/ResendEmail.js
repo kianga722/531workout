@@ -1,11 +1,11 @@
-import React, {useEffect} from 'react'
+import React, { useEffect, useContext } from 'react'
 
-const ResendEmail = ({
-  setNotificationMessage,
-  handleSubmit,
-  handleEmailChange,
-  email
-}) => {
+import { NotificationContext } from '../contexts/NotificationContext';
+import { AuthContext } from '../contexts/AuthContext';
+
+const ResendEmail = () => {
+  const { setNotificationMessage } = useContext(NotificationContext);
+  const { emailResend, setEmailResend, handleResend } = useContext(AuthContext);
 
   useEffect(() => {
     return () => {
@@ -28,8 +28,8 @@ const ResendEmail = ({
           <input
             id='emailResend'
             type='email'
-            value={email}
-            onChange={handleEmailChange}
+            value={emailResend}
+            onChange={({ target }) => setEmailResend(target.value)}
           />
         </div>
 
@@ -37,7 +37,7 @@ const ResendEmail = ({
           <input
             className='submit-button'
             type='submit'
-            onClick={handleSubmit}
+            onClick={handleResend}
             value='Resend Email'
           >
           </input>

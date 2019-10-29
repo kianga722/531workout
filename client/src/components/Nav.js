@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {
   Link
 } from 'react-router-dom'
-const Nav = ({
-  user,
-  handleLogout
-}) => {
+import { AuthContext } from '../contexts/AuthContext';
+
+const Nav = () => {
+  const { user, handleLogout } = useContext(AuthContext)
+  
   return (
     <nav id='nav-main'>
       

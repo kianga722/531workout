@@ -1,11 +1,11 @@
-import React, {useEffect} from 'react'
+import React, { useEffect, useContext } from 'react'
 
-const ForgotPassword = ({
-  setNotificationMessage,
-  handleSubmit,
-  handleEmailChange,
-  email
-}) => {
+import { NotificationContext } from '../contexts/NotificationContext';
+import { AuthContext } from '../contexts/AuthContext';
+
+const ForgotPassword = () => {
+  const { setNotificationMessage } = useContext(NotificationContext);
+  const { emailForgot, setEmailForgot, handleForgot } = useContext(AuthContext);
 
   useEffect(() => {
     return () => {
@@ -28,8 +28,8 @@ const ForgotPassword = ({
           <input
             id='emailForgot'
             type='email'
-            value={email}
-            onChange={handleEmailChange}
+            value={emailForgot}
+            onChange={({ target }) => setEmailForgot(target.value)}
           />
         </div>
 
@@ -37,7 +37,7 @@ const ForgotPassword = ({
           <input
             className='submit-button'
             type='submit'
-            onClick={handleSubmit}
+            onClick={handleForgot}
             value='Send reset password email'
           >
           </input>

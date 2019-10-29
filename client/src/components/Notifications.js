@@ -1,17 +1,15 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import { NotificationContext } from '../contexts/NotificationContext';
 
-const Notification = ({
-  node,
-  message,
-  setNotificationMessage,
+const Notification = () => {
+  const { node, notificationMessage, setNotificationMessage } = useContext(NotificationContext);
 
-}) => {
-  if (message === null) {
+  if (notificationMessage === null) {
     return null;
   }
 
-  const type = Object.keys(message)[0] === 'err' ? 'err' : 'info';
-  const msgArr = message[type];
+  const type = Object.keys(notificationMessage)[0] === 'err' ? 'err' : 'info';
+  const msgArr = notificationMessage[type];
   const length = msgArr.length > 1 ? 'multi' : null;
 
   return (

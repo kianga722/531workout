@@ -1,16 +1,14 @@
-import React, {useEffect} from 'react'
+import React, { useEffect, useContext } from 'react';
 import {
   Link
-} from 'react-router-dom'
+} from 'react-router-dom';
 
-const LoginForm = ({
-  setNotificationMessage,
-  handleSubmit,
-  handleEmailChange,
-  handlePasswordChange,
-  email,
-  password
-}) => {
+import { NotificationContext } from '../contexts/NotificationContext';
+import { AuthContext } from '../contexts/AuthContext';
+
+const LoginForm = () => {
+  const { setNotificationMessage } = useContext(NotificationContext);
+  const { email, setEmail, password, setPassword, handleLogin } = useContext(AuthContext);
 
   useEffect(() => {
     return () => {
@@ -34,7 +32,7 @@ const LoginForm = ({
             id='email'
             type='email'
             value={email}
-            onChange={handleEmailChange}
+            onChange={({ target }) => setEmail(target.value)}
           />
         </div>
 
@@ -46,7 +44,7 @@ const LoginForm = ({
             id='password'
             type="password"
             value={password}
-            onChange={handlePasswordChange}
+            onChange={({ target }) => setPassword(target.value)}
           />
         </div>
 
@@ -54,7 +52,7 @@ const LoginForm = ({
           <input
             className='submit-button'
             type='submit'
-            onClick={handleSubmit}
+            onClick={handleLogin}
             value='Sign in to your account'
           >
           </input>

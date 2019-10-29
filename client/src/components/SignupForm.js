@@ -1,18 +1,14 @@
-import React, {useEffect} from 'react'
+import React, { useEffect, useContext } from 'react';
 import {
   Link
-} from 'react-router-dom'
+} from 'react-router-dom';
 
-const SignupForm = ({
-  setNotificationMessage,
-  handleSubmit,
-  handleEmailChange,
-  handlePasswordChange,
-  handlePassword2Change,
-  email,
-  password,
-  password2
-}) => {
+import { NotificationContext } from '../contexts/NotificationContext';
+import { AuthContext } from '../contexts/AuthContext';
+
+const SignupForm = () => {
+  const { setNotificationMessage } = useContext(NotificationContext);
+  const { emailSignup, setEmailSignup, passwordSignup, setPasswordSignup, password2Signup, setPassword2Signup, handleSignup } = useContext(AuthContext);
 
   useEffect(() => {
     return () => {
@@ -35,8 +31,8 @@ const SignupForm = ({
           <input
             id='emailSignup'
             type='email'
-            value={email}
-            onChange={handleEmailChange}
+            value={emailSignup}
+            onChange={({ target }) => setEmailSignup(target.value)}
           />
         </div>
 
@@ -47,8 +43,8 @@ const SignupForm = ({
           <input
             id='passwordSignup'
             type='password'
-            value={password}
-            onChange={handlePasswordChange}
+            value={passwordSignup}
+            onChange={({ target }) => setPasswordSignup(target.value)}
           />
         </div>
 
@@ -59,8 +55,8 @@ const SignupForm = ({
           <input
             id='password2Signup'
             type='password'
-            value={password2}
-            onChange={handlePassword2Change}
+            value={password2Signup}
+            onChange={({ target }) => setPassword2Signup(target.value)}
           />
         </div>
 
@@ -68,7 +64,7 @@ const SignupForm = ({
           <input
             className='submit-button'
             type='submit'
-            onClick={handleSubmit}
+            onClick={handleSignup}
             value='Create your account'
           >
           </input>

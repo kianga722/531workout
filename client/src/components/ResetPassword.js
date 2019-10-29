@@ -1,17 +1,14 @@
-import React, {useEffect} from 'react'
+import React, { useEffect, useContext } from 'react'
 import {
   Route
 } from 'react-router-dom'
 
-const ResetPassword = ({
-  setNotificationMessage,
-  emailReset,
-  handleSubmit,
-  handlePasswordChange,
-  handlePassword2Change,
-  password,
-  password2,
-}) => {
+import { NotificationContext } from '../contexts/NotificationContext';
+import { AuthContext } from '../contexts/AuthContext';
+
+const ResetPassword = () => {
+  const { setNotificationMessage } = useContext(NotificationContext);
+  const { emailReset, passwordReset, setPasswordReset, password2Reset, setPassword2Reset, handleReset } = useContext(AuthContext);
 
   const resetForm = () => (
     <Route render={({ history }) => (
@@ -25,8 +22,8 @@ const ResetPassword = ({
           <input
             id='passwordForgot'
             type='password'
-            value={password}
-            onChange={handlePasswordChange}
+            value={passwordReset}
+            onChange={({ target }) => setPasswordReset(target.value)}
           />
         </div>
 
@@ -37,8 +34,8 @@ const ResetPassword = ({
           <input
             id='password2Forgot'
             type='password'
-            value={password2}
-            onChange={handlePassword2Change}
+            value={password2Reset}
+            onChange={({ target }) => setPassword2Reset(target.value)}
           />
         </div>
 
@@ -46,7 +43,7 @@ const ResetPassword = ({
           <input
             className='submit-button'
             type='submit'
-            onClick={(e) => handleSubmit(e, history)}
+            onClick={(e) => handleReset(e, history)}
             value='Update Password'
           >
           </input>
