@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-const WorkoutNav = ({
-  setNotificationMessage,
-  workoutCount,
-  completed,
-  handlePrev,
-  handleCurrent,
-  handleNext,
-  user,
-}) => (
-  <nav id="nav-workout">
+import { NotificationContext } from '../contexts/NotificationContext';
+import { AuthContext } from '../contexts/AuthContext';
+import { WorkoutContext } from '../contexts/WorkoutContext';
+
+const WorkoutNav = () => {
+  const { setNotificationMessage } = useContext(NotificationContext);
+  const {user} = useContext(AuthContext)
+  const { workoutCount, completed, handlePrev, handleCurrent, handleNext } = useContext(WorkoutContext);
+
+  return (
+    <nav id="nav-workout">
 
       {
         // Show previous button only if not first workout
@@ -30,12 +31,12 @@ const WorkoutNav = ({
         // Jumps to current workout
       }
       <button
-          onClick={(event) => {
+        onClick={(event) => {
           setNotificationMessage(null);
           handleCurrent();
         }}
-        >
-          Current
+      >
+        Current
         </button>
 
       {
@@ -54,7 +55,7 @@ const WorkoutNav = ({
       }
 
     </nav>
-);
-
+  )
+}
 
 export default WorkoutNav;

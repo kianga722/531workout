@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import {
   BrowserRouter as Router,
   Route, Redirect,
@@ -21,12 +21,20 @@ import { SchemeContext } from '../contexts/SchemeContext';
 import { LoadingContext } from '../contexts/LoadingContext';
 import { NotificationContext } from '../contexts/NotificationContext';
 import { AuthContext } from '../contexts/AuthContext';
+import { WorkoutContext } from '../contexts/WorkoutContext';
 
 function ContextWrapper() {
   const { scheme } = useContext(SchemeContext);
   const { contentLoading } = useContext(LoadingContext);
-  const { notificationMessage, setNotificationMessage } = useContext(NotificationContext);
-  const {user, emailReset } = useContext(AuthContext)
+  const { notificationMessage } = useContext(NotificationContext);
+  const { user, emailReset } = useContext(AuthContext)
+  const { resetWorkoutState } = useContext(WorkoutContext);
+
+  // Clear inputs if signing out
+  useEffect(() => {
+    resetWorkoutState();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   return (
     <div className={`App ${scheme}`}>
@@ -57,12 +65,8 @@ function ContextWrapper() {
             <Route
               exact
               path="/"
-              render={() => (user === null
-                ? (
-                  <Home
-                    setNotificationMessage={setNotificationMessage}
-                  />
-                ) : <Redirect to="/workouts" />)}
+              render={() => (user === null? 
+                <Home /> : <Redirect to="/workouts" />)}
             />
 
             <Route
@@ -96,19 +100,14 @@ function ContextWrapper() {
               
             <Route
               path="/reset/:id"
-              render={() => (user === null && emailReset !== null ? 
+              render={() => (user === null && emailReset !== null ?
                 <ResetPassword /> : <Redirect to="/" />)}
             />
 
             <Route
               path="/workouts"
-              render={() => (user
-                ? (
-                  <WorkoutHome
-                    setNotificationMessage={setNotificationMessage}
-                    user={user}
-                  />
-                ) : <Redirect to="/login" />)}
+              render={() => (user ?
+                <WorkoutHome /> : <Redirect to="/login" />)}
             />
 
           </section>

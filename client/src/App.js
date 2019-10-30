@@ -4,6 +4,7 @@ import SchemeContextProvider from './contexts/SchemeContext';
 import LoadingContextProvider from './contexts/LoadingContext';
 import AuthContextProvider from './contexts/AuthContext';
 import NotificationContextProvider from './contexts/NotificationContext';
+import WorkoutContextProvider from './contexts/WorkoutContext';
 
 function App() {
   return (
@@ -11,7 +12,9 @@ function App() {
       <LoadingContextProvider>
         <NotificationContextProvider>
           <AuthContextProvider>
-            <ContextWrapper />
+            <WorkoutContextProvider>
+              <ContextWrapper />
+            </WorkoutContextProvider>
           </AuthContextProvider>
         </NotificationContextProvider>
       </LoadingContextProvider>

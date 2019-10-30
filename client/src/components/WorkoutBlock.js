@@ -1,18 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import ExerciseRow from './ExerciseRow'
+
+import { WorkoutContext } from '../contexts/WorkoutContext';
 
 const WorkoutBlock = ({
   workout,
   setWorkout,
   cycle,
   week,
-  RMTM,
-  exerciseMap,
-  getPercentage,
-  getReps,
   TMTesting,
-  handleWorkoutInput,
 }) => {
+  const { RMTM, exerciseMap, getPercentage, getReps, handleWorkoutInput } = useContext(WorkoutContext);
+
   return (
     <div className='exercise-wrapper'>
 

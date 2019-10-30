@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import RMTMExercise from './RMTMExercise'
 
-const RMTMList = ({
-  RMTM,
-  handleRMChange,
-  handleTMChange
-}) => {
+import { WorkoutContext } from '../contexts/WorkoutContext';
+
+const RMTMList = () => {
+  const { RMTM, handleRMChange, handleTMChange } = useContext(WorkoutContext);
+
   return (
     <section id='rm-tm-wrapper'>
 

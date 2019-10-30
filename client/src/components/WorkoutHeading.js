@@ -1,15 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-const WorkoutHeading = ({
-  workoutCount,
-  cycle,
-  week,
-  section,
-  TMTesting,
-  navState,
-  handleReCalc,
-  user,
-}) => (
+import { AuthContext } from '../contexts/AuthContext';
+import { WorkoutContext } from '../contexts/WorkoutContext';
+
+const WorkoutHeading = () => {
+  const { user } = useContext(AuthContext)
+  const { workoutCount, cycle, week, section, TMTesting, navState, handleReCalc } = useContext(WorkoutContext);
+
+  return (
     <section id='heading-workout'>
 
       <div className='workout-count'>
@@ -71,7 +69,9 @@ const WorkoutHeading = ({
       }
     
     </section>
-  );
+
+  )
+}
 
 
 export default WorkoutHeading;

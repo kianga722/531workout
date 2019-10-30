@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react';
 
-const AssistAddBlock = ({
-  assistAdd,
-  handleAssistAddInput,
-  handleNewAssist
-}) => {
+import { WorkoutContext } from '../contexts/WorkoutContext';
+
+const AssistAddBlock = () => {
+  const { assistAdd, handleAssistAddInput, handleNewAssist } = useContext(WorkoutContext);
+
   return (
     <div className='add-assist-wrapper'>
 

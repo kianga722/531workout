@@ -1,23 +1,24 @@
-import React from 'react'
+import React, { useContext } from 'react';
 
-const inputReps = (inputValue, handleWorkoutInput, exercise, key) => {
+import { WorkoutContext } from '../contexts/WorkoutContext';
+
+const inputReps = (inputValue, handleAssistInput, exercise, key) => {
   return (
     <input
       key={key}
       type='number'
       value={inputValue}
-      onChange={(event) => handleWorkoutInput(event, exercise, key)}
+      onChange={(event) => handleAssistInput(event, exercise, key)}
     />
   )
 }
 
 const AssistExercise = ({
   assistName,
-  assistFormat,
   assistWorkout,
-  handleWorkoutInput,
-  setConfirmPopup,
 }) => {
+  const { assistFormat, handleAssistInput, setConfirmPopup } = useContext(WorkoutContext);
+
   const { sets, reps } = assistWorkout
 
   return (
@@ -49,7 +50,7 @@ const AssistExercise = ({
           if (key === 'sets' || key === 'reps') {
             return null
           }
-          return inputReps(assistWorkout[key], handleWorkoutInput, assistName, key, )
+          return inputReps(assistWorkout[key], handleAssistInput, assistName, key, )
         })}
       </div>
     </div>

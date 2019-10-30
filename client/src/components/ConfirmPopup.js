@@ -1,14 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-const ConfirmPopup = ({
-  node,
-  message,
-  setConfirmPopup,
-  handleYes,
-}) => {
-  if (message === null) {
-    return null;
-  }
+import { WorkoutContext } from '../contexts/WorkoutContext';
+
+const ConfirmPopup = () => {
+  const { nodeConfirm, confirmPopup, setConfirmPopup, handleAssistDelete } = useContext(WorkoutContext);
 
   return (
     <div className="confirmation-wrapper">
@@ -17,17 +12,17 @@ const ConfirmPopup = ({
 
       <section
         className="notifications"
-        ref={node}
+        ref={nodeConfirm}
       >
 
         <div className="notification">
-          {message}
+          {confirmPopup[0]}
         </div>
 
         <div className="yes-no-wrapper">
           <button
             className="button-yes"
-            onClick={handleYes}
+            onClick={(event) => handleAssistDelete(confirmPopup[1])}
           >
             Yes
           </button>

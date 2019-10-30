@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import { NotificationContext } from '../contexts/NotificationContext';
 
 const Notification = () => {
-  const { node, notificationMessage, setNotificationMessage } = useContext(NotificationContext);
+  const { nodeNotification, notificationMessage, setNotificationMessage } = useContext(NotificationContext);
 
   if (notificationMessage === null) {
     return null;
@@ -19,7 +19,7 @@ const Notification = () => {
 
       <section
         className={`notifications ${type}`}
-        ref={node}
+        ref={nodeNotification}
       >
 
         <div

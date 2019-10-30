@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
-const RMCalcBlock = ({
-  RMCalc,
-  handleRMCalc
-}) => {
+import { WorkoutContext } from '../contexts/WorkoutContext';
+
+const RMCalcBlock = () => {
+  const { RMCalc, handleRMCalc } = useContext(WorkoutContext);
+
   return (
     <section id='rm-calc'>
 

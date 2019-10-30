@@ -6,11 +6,11 @@ const NotificationContextProvider = (props) => {
   // Notification Messages
   // has object structure of {err/info: [errors]}
   const [notificationMessage, setNotificationMessage] = useState(null);
-  const node = useRef();
+  const nodeNotification = useRef();
 
   // Notifications Popup Handle Clicks
   const handleClick = (e) => {
-    if (node.current && node.current.contains(e.target)) {
+    if (nodeNotification.current && nodeNotification.current.contains(e.target)) {
       // inside click
       return;
     }

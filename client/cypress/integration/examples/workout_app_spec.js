@@ -479,7 +479,7 @@ describe('Workout', function () {
     it('can save an input to a previous workout', function () {
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #2')
       cy.get('#workout-session .exercise-wrapper:nth-child(1) .exercise-title').contains('Deadlift')
@@ -494,7 +494,7 @@ describe('Workout', function () {
     it('current workout inputs are saved', function () {
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #3')
       cy.get('#workout-session .exercise-wrapper:nth-child(1) .exercise-title').contains('Bench')
@@ -506,7 +506,7 @@ describe('Workout', function () {
     it('previous workout inputs are saved', function () {
       cy.contains('Previous').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #2')
       cy.get('#workout-session .exercise-wrapper:nth-child(1) .exercise-row:nth-child(8) input').should('have.attr', 'value', '9')
@@ -517,12 +517,12 @@ describe('Workout', function () {
 
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #3')
       cy.contains('Previous').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #2')
 
@@ -535,7 +535,7 @@ describe('Workout', function () {
     it('verifies current workout', function () {
       cy.contains('Current').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #3')
 
@@ -582,7 +582,7 @@ describe('Workout', function () {
     it('verifies next 6 workouts before TM increase', function () {
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #4')
   
@@ -627,7 +627,7 @@ describe('Workout', function () {
 
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #5')
   
@@ -672,7 +672,7 @@ describe('Workout', function () {
 
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #6')
   
@@ -717,7 +717,7 @@ describe('Workout', function () {
 
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #7')
   
@@ -762,7 +762,7 @@ describe('Workout', function () {
 
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #8')
   
@@ -807,7 +807,7 @@ describe('Workout', function () {
 
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #9')
   
@@ -854,7 +854,7 @@ describe('Workout', function () {
     it('TM increases on 10th workout', function () {
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #10')
 
@@ -901,7 +901,7 @@ describe('Workout', function () {
     it('verifies next 8 workouts before TM increase', function () {
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #11')
 
@@ -946,7 +946,7 @@ describe('Workout', function () {
 
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #12')
 
@@ -991,7 +991,7 @@ describe('Workout', function () {
 
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #13')
 
@@ -1036,7 +1036,7 @@ describe('Workout', function () {
 
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #14')
 
@@ -1081,7 +1081,7 @@ describe('Workout', function () {
 
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #15')
 
@@ -1126,7 +1126,7 @@ describe('Workout', function () {
 
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #16')
 
@@ -1171,7 +1171,7 @@ describe('Workout', function () {
 
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #17')
 
@@ -1216,7 +1216,7 @@ describe('Workout', function () {
 
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #18')
 
@@ -1263,7 +1263,7 @@ describe('Workout', function () {
     it('TM increases on 19th workout', function () {
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #19')
 
@@ -1310,7 +1310,7 @@ describe('Workout', function () {
     it('verifies next 8 workouts before TMTesting week', function () {
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #20')
 
@@ -1355,7 +1355,7 @@ describe('Workout', function () {
 
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #21')
 
@@ -1400,7 +1400,7 @@ describe('Workout', function () {
 
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #22')
 
@@ -1445,7 +1445,7 @@ describe('Workout', function () {
 
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #23')
 
@@ -1490,7 +1490,7 @@ describe('Workout', function () {
 
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #24')
 
@@ -1535,7 +1535,7 @@ describe('Workout', function () {
 
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #25')
 
@@ -1580,7 +1580,7 @@ describe('Workout', function () {
 
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #26')
 
@@ -1625,7 +1625,7 @@ describe('Workout', function () {
 
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #27')
 
@@ -1676,7 +1676,7 @@ describe('Workout', function () {
     it('allows user to pass all TMTesting exercises in the week', function () { 
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #28')
   
@@ -1725,7 +1725,7 @@ describe('Workout', function () {
 
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #29')
   
@@ -1763,7 +1763,7 @@ describe('Workout', function () {
 
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #30')
   
@@ -1803,7 +1803,7 @@ describe('Workout', function () {
     it('Cycle after TMTesting week keeps all weight values ', function () {
       cy.contains('Next').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #31')
 
@@ -1846,17 +1846,17 @@ describe('Workout', function () {
     it('Going back and failing an exercise in TMTesting week will not cause a recalculation unless the Recalculate button is clicked', function () {
       cy.contains('Previous').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #30')
       cy.contains('Previous').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #29')
       cy.contains('Previous').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #28')
 
@@ -1870,7 +1870,7 @@ describe('Workout', function () {
 
       cy.contains('Current').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #31')
 
@@ -1898,7 +1898,7 @@ describe('Workout', function () {
     it('Going back and failing a different exercise in TMTesting week will not cause a recalculation unless the Recalculate button is clicked', function () {
       cy.contains('Previous').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #30')
 
@@ -1912,7 +1912,7 @@ describe('Workout', function () {
 
       cy.contains('Current').click()
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.contains('Workout #31')
 
