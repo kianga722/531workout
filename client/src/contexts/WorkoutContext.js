@@ -504,7 +504,7 @@ const WorkoutContextProvider = (props) => {
     if (workoutCountNext > workoutCount) {
       setWorkoutTransition('moveLeft');
     } else if (workoutCountNext === workoutCount) {
-      setWorkoutTransition(null);
+      setWorkoutTransition('');
     } else {
       setWorkoutTransition('moveRight');
     }
