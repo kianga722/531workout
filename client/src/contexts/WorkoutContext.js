@@ -193,20 +193,32 @@ const WorkoutContextProvider = (props) => {
   const [pushups, setPushups] = useState({});
   const [chinups, setChinups] = useState({});
   const [pullups, setPullups] = useState({});
+  const [curls, setCurls] = useState({});
   const [legraises, setLegRaises] = useState({});
+  const [lunges, setLunges] = useState({});
+  const [stepUps, setStepUps] = useState({});
+  const [bulgarianOneLegSquats, setBulgarianOneLegSquats] = useState({});
 
   const assistMap = {
     pushups: [pushups, setPushups],
     chinups: [chinups, setChinups],
     pullups: [pullups, setPullups],
+    curls: [curls, setCurls],
     legraises: [legraises, setLegRaises],
+    lunges: [lunges, setLunges],
+    stepUps: [stepUps, setStepUps],
+    bulgarianOneLegSquats: [bulgarianOneLegSquats, setBulgarianOneLegSquats],
   };
 
   const assistFormat = {
     pushups: 'Pushups',
     chinups: 'Chinups',
     pullups: 'Pullups',
+    curls: 'Curls',
     legraises: 'Leg Raises',
+    lunges: 'Lunges',
+    stepUps: 'Step Ups',
+    bulgarianOneLegSquats: 'Bulgarian One Leg Squats'
   };
 
 

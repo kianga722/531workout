@@ -19,7 +19,11 @@ const AssistAddBlock = () => {
         <option value='pushups'>Pushups</option>
         <option value='chinups'>Chinups</option>
         <option value='pullups'>Pullups</option>
+        <option value='curls'>Curls</option>
         <option value='legraises'>Leg Raises</option>
+        <option value='lunges'>Lunges</option>
+        <option value='stepUps'>Step Ups</option>
+        <option value='bulgarianOneLegSquats'>Bulgarian One Leg Squats</option>
       </select>
 
       <div className='assist-set-rep-wrapper'>
